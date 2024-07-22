@@ -1,0 +1,35 @@
+version: '3'
+services:
+  postgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root      
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./migration/docker-database-initial.sql:/docker-entrypoint-initdb.d/docker-database-initial.sql
+
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "email@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "54321:80"
+    depends_on:
+      - postgres
+
+  # fastfood_app:
+  #   container_name: fastfood_app
+  #   image: tech-challenge
+  #   build: .
+  #   environment:
+  #     DATABASE_URL: "host=fastfood_db user=root password=root dbname=fastfood_db sslmode=disable TimeZone=UTC"
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - fastfood_database
+
+      
