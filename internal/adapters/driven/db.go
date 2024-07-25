@@ -13,7 +13,7 @@ var (
 )
 
 func ConectaDB() {
-	conexao := "host=localhost user=root password=root dbname=root port=5432 sslmode=disable"
+	conexao := "host=postgres user=root password=root dbname=root port=5432 sslmode=disable"
 
 	db, err := gorm.Open(postgres.Open(conexao))
 

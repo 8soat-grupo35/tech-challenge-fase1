@@ -6,10 +6,14 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=root      
-    ports:
-      - "5432:5432"
+    restart: always
     volumes:
       - ./migration/docker-database-initial.sql:/docker-entrypoint-initdb.d/docker-database-initial.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   pgadmin-compose:
     image: dpage/pgadmin4
@@ -20,16 +24,13 @@ services:
       - "54321:80"
     depends_on:
       - postgres
-
-  # fastfood_app:
-  #   container_name: fastfood_app
-  #   image: tech-challenge
-  #   build: .
-  #   environment:
-  #     DATABASE_URL: "host=fastfood_db user=root password=root dbname=fastfood_db sslmode=disable TimeZone=UTC"
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - fastfood_database
-
       
+  fastfood_app:
+    depends_on:
+      postgres:
+        condition: service_healthy  
+    container_name: fastfood_app
+    image: tech-challenge
+    build: .
+    ports:
+      - "8000:8000"
