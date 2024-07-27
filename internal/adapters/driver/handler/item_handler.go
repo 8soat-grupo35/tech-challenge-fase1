@@ -29,10 +29,14 @@ func (h *handler) Item() ItemHandler {
 func (h *itemHandler) GetAll(echo echo.Context) error {
 	var items []domain.Item
 
+	category := echo.QueryParam("category")
+
 	itemRepository := item.NewRepository(h.orm)
 	service := services.NewItemService(itemRepository)
 
-	items, err := service.GetAll()
+	items, err := service.GetAll(domain.Item{
+		Category: category,
+	})
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())

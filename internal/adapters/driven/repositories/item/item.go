@@ -16,8 +16,8 @@ func NewRepository(orm *gorm.DB) ports.ItemRepository {
 	return &repository{orm: orm}
 }
 
-func (c *repository) GetAll() (items []domain.Item, err error) {
-	result := c.orm.Find(&items)
+func (c *repository) GetAll(filter domain.Item) (items []domain.Item, err error) {
+	result := c.orm.Where(filter).Find(&items)
 
 	if result.Error != nil {
 		log.Println(result.Error)

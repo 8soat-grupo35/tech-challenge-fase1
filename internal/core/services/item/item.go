@@ -17,8 +17,8 @@ func NewItemService(itemRepository ports.ItemRepository) ports.ItemService {
 	}
 }
 
-func (service *itemService) GetAll() ([]domain.Item, error) {
-	items, err := service.itemRepository.GetAll()
+func (service *itemService) GetAll(filter domain.Item) ([]domain.Item, error) {
+	items, err := service.itemRepository.GetAll(filter)
 
 	if err != nil {
 		return []domain.Item{}, errors.New("get item from repository has failed")
