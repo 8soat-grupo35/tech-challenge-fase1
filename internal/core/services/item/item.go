@@ -4,14 +4,15 @@ import (
 	"errors"
 
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/domain"
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports/repository"
+    "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports/service"
 )
 
 type itemService struct {
-	itemRepository ports.ItemRepository
+	itemRepository repository.ItemRepository
 }
 
-func NewItemService(itemRepository ports.ItemRepository) ports.ItemService {
+func NewItemService(itemRepository repository.ItemRepository) service.ItemService {
 	return &itemService{
 		itemRepository: itemRepository,
 	}

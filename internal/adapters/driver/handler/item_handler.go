@@ -7,10 +7,10 @@ import (
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/item"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/domain"
-	services "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
+	 "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
 	"github.com/labstack/echo"
 )
-
+//go:generate mockgen -source=item_handler.go -destination=../../../../test/adapters/driver/handler/mock/item_handler_mock.go
 type ItemHandler interface {
 	GetAll(echo echo.Context) error
 	Create(echo echo.Context) error
