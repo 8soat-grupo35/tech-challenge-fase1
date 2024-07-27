@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	database "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven"
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/http"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/handler"
 )
 
 func main() {
@@ -12,5 +12,5 @@ func main() {
 
 	database.ConectaDB()
 
-	http.SetupRouter(database.DB)
+	handler.SetupRouter(database.DB)
 }
