@@ -6,7 +6,7 @@ import (
 
 //go:generate mockgen -source=handler.go -destination=../../../../test/adapters/driver/handler/mock/handler_mock.go
 type Handlers interface {
-	Item() ItemHandler
+	NewItemHandler() ItemHandler
 }
 
 type handler struct {

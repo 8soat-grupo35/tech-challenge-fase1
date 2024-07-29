@@ -7,9 +7,10 @@ import (
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/item"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/domain"
-	 "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
+	services "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
 	"github.com/labstack/echo"
 )
+
 //go:generate mockgen -source=item_handler.go -destination=../../../../test/adapters/driver/handler/mock/item_handler_mock.go
 type ItemHandler interface {
 	GetAll(echo echo.Context) error
@@ -22,7 +23,7 @@ type itemHandler struct {
 	*handler
 }
 
-func (h *handler) Item() ItemHandler {
+func (h *handler) NewItemHandler() ItemHandler {
 	return &itemHandler{h}
 }
 

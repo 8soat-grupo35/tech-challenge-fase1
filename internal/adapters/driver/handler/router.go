@@ -16,10 +16,10 @@ func SetupRouter(db *gorm.DB) *echo.Echo {
 func mapRoutes(echo *echo.Echo, orm *gorm.DB) {
 	handler := NewHandler(orm)
 
-	echo.GET("/items", handler.Item().GetAll)
-	echo.POST("/item", handler.Item().Create)
-	echo.PUT("/item/:id", handler.Item().Update)
-	echo.DELETE("/item/:id", handler.Item().Delete)
+	echo.GET("/items", handler.NewItemHandler().GetAll)
+	echo.POST("/item", handler.NewItemHandler().Create)
+	echo.PUT("/item/:id", handler.NewItemHandler().Update)
+	echo.DELETE("/item/:id", handler.NewItemHandler().Delete)
 
 	echo.Logger.Fatal(echo.Start(":8000"))
 }
