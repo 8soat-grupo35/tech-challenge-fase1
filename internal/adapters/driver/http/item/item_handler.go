@@ -1,41 +1,37 @@
-package handler
+package item
 
 import (
 	"net/http"
 	"strconv"
 
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/item"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/domain"
-	services "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
-	"github.com/labstack/echo"
+	itemService "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports/service"
+	"github.com/labstack/echo/v4"
 )
 
-//go:generate mockgen -source=item_handler.go -destination=../../../../test/adapters/driver/handler/mock/item_handler_mock.go
-type ItemHandler interface {
-	GetAll(echo echo.Context) error
-	Create(echo echo.Context) error
-	Update(echo echo.Context) error
-	Delete(echo echo.Context) error
+type ItemHandler struct {
+	itemService itemService.ItemService
 }
 
-type itemHandler struct {
-	*handler
+func NewItemHandler(itemService itemService.ItemService) ItemHandler {
+	return ItemHandler{itemService: itemService}
 }
 
-func (h *handler) NewItemHandler() ItemHandler {
-	return &itemHandler{h}
+func (h ItemHandler) RegisterRoutes(server *echo.Echo) {
+	itemV1Group := server.Group("/v1/item")
+	itemV1Group.GET("", h.GetAll)
+	itemV1Group.POST("", h.Create)
+	itemV1Group.PUT("/:id", h.Update)
+	itemV1Group.DELETE("/:id", h.Delete)
 }
 
-func (h *itemHandler) GetAll(echo echo.Context) error {
+func (h *ItemHandler) GetAll(echo echo.Context) error {
 	var items []domain.Item
 
 	category := echo.QueryParam("category")
 
-	itemRepository := item.NewRepository(h.orm)
-	service := services.NewItemService(itemRepository)
-
-	items, err := service.GetAll(domain.Item{
+	items, err := h.itemService.GetAll(domain.Item{
 		Category: category,
 	})
 
@@ -46,7 +42,7 @@ func (h *itemHandler) GetAll(echo echo.Context) error {
 	return echo.JSON(http.StatusOK, items)
 }
 
-func (h *itemHandler) Create(echo echo.Context) error {
+func (h *ItemHandler) Create(echo echo.Context) error {
 	itemDto := dto.ItemDto{}
 
 	err := echo.Bind(&itemDto)
@@ -55,10 +51,7 @@ func (h *itemHandler) Create(echo echo.Context) error {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	itemRepository := item.NewRepository(h.orm)
-	service := services.NewItemService(itemRepository)
-
-	item, err := service.Create(domain.Item{
+	item, err := h.itemService.Create(domain.Item{
 		Name:     itemDto.Name,
 		Category: itemDto.Category,
 		Price:    itemDto.Price,
@@ -72,7 +65,7 @@ func (h *itemHandler) Create(echo echo.Context) error {
 	return echo.JSON(http.StatusOK, item)
 }
 
-func (h *itemHandler) Update(echo echo.Context) error {
+func (h *ItemHandler) Update(echo echo.Context) error {
 	itemDto := dto.ItemDto{}
 
 	err := echo.Bind(&itemDto)
@@ -86,10 +79,7 @@ func (h *itemHandler) Update(echo echo.Context) error {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	itemRepository := item.NewRepository(h.orm)
-	service := services.NewItemService(itemRepository)
-
-	item, err := service.Update(uint32(id), domain.Item{
+	item, err := h.itemService.Update(uint32(id), domain.Item{
 		Name:     itemDto.Name,
 		Category: itemDto.Category,
 		Price:    itemDto.Price,
@@ -103,17 +93,14 @@ func (h *itemHandler) Update(echo echo.Context) error {
 	return echo.JSON(http.StatusOK, item)
 }
 
-func (h *itemHandler) Delete(echo echo.Context) error {
+func (h *ItemHandler) Delete(echo echo.Context) error {
 	id, err := strconv.Atoi(echo.Param("id"))
 
 	if err != nil {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	itemRepository := item.NewRepository(h.orm)
-	service := services.NewItemService(itemRepository)
-
-	err = service.Delete(uint32(id))
+	err = h.itemService.Delete(uint32(id))
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
