@@ -9,4 +9,4 @@ type Item struct {
 	Price    float32 `gorm:"not null;"`
 	ImageUrl string  `gorm:"size:255;not null;"`
 	gorm.Model
-}
+} //@name domain.Item

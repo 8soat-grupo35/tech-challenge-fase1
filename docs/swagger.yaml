@@ -1,6 +1,127 @@
+definitions:
+  ItemDto:
+    properties:
+      category:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+    type: object
+  domain.Item:
+    properties:
+      category:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      updatedAt:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
 info:
   contact: {}
 paths:
+  /item:
+    post:
+      consumes:
+      - application/json
+      description: Insert Item
+      parameters:
+      - description: teste
+        in: body
+        name: ItemToInsert
+        required: true
+        schema:
+          $ref: '#/definitions/ItemDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Item'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Insert Item
+      tags:
+      - Items
+  /item/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Item
+      parameters:
+      - description: ID do item
+        in: path
+        name: Id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: item deleted successfully
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Delete Item
+      tags:
+      - Items
+    put:
+      consumes:
+      - application/json
+      description: Update Item
+      parameters:
+      - description: ID do item
+        in: path
+        name: Id
+        required: true
+        type: integer
+      - description: teste
+        in: body
+        name: ItemToInsert
+        required: true
+        schema:
+          $ref: '#/definitions/ItemDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Item'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Update Item
+      tags:
+      - Items
   /items:
     get:
       consumes:
@@ -8,8 +129,15 @@ paths:
       description: List All Items
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Item'
+        "500":
+          description: Internal Server Error
+          schema: {}
       summary: List Items
       tags:
-      - items
+      - Items
 swagger: "2.0"

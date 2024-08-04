@@ -15,9 +15,9 @@ func SetupRouter(db *gorm.DB) *echo.Echo {
 	return r
 }
 
-// @title Swagger Example API
+// @title Swagger Fastfood App API
 // @version 1.0
-// @description This is a sample server Petstore server.
+// @description This is a sample API from Fastfood App.
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name API Support
