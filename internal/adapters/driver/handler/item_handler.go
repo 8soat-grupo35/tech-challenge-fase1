@@ -8,7 +8,7 @@ import (
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/domain"
 	services "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 //go:generate mockgen -source=item_handler.go -destination=../../../../test/adapters/driver/handler/mock/item_handler_mock.go
@@ -27,6 +27,13 @@ func (h *handler) NewItemHandler() ItemHandler {
 	return &itemHandler{h}
 }
 
+// GetAllItems godoc
+// @Summary      List Items
+// @Description  List All Items
+// @Tags         items
+// @Accept       json
+// @Produce      json
+// @Router       /items [get]
 func (h *itemHandler) GetAll(echo echo.Context) error {
 	var items []domain.Item
 
