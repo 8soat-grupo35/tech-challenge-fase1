@@ -48,8 +48,9 @@ func (h *ClientHandler) Create(echo echo.Context) error {
 	}
 
 	client, err := h.clientService.Create(domain.Client{
-		Name: clientDto.Name,
-		CPF:  clientDto.CPF,
+		Name:  clientDto.Name,
+		Email: clientDto.Email,
+		CPF:   clientDto.CPF,
 	})
 
 	if err != nil {
@@ -74,8 +75,9 @@ func (h *ClientHandler) Update(echo echo.Context) error {
 	}
 
 	client, err := h.clientService.Update(uint32(id), domain.Client{
-		Name: clientDto.Name,
-		CPF:  clientDto.CPF,
+		Name:  clientDto.Name,
+		Email: clientDto.Email,
+		CPF:   clientDto.CPF,
 	})
 
 	if err != nil {
