@@ -1,12 +1,13 @@
 FROM golang:1.22
 
 WORKDIR /app
+COPY . /app
 
-COPY . .
+RUN go install github.com/air-verse/air@latest
+RUN go install github.com/swaggo/swag/cmd/swag@latest
 
-RUN go get -d -v ./...
-RUN go build -o api ./cmd/api
+COPY go.mod go.sum ./
+RUN go mod download
 
-EXPOSE 8000
 
-CMD ["./api"]
+CMD ["air", "-c", ".air.toml"]
