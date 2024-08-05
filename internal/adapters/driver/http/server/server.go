@@ -5,10 +5,13 @@ import (
 	"fmt"
 
 	database "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven"
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/item"
+	clientRepository "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/client"
+	itemRepository "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/item"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/config"
+	clientHandler "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/http/client"
 	itemHandler "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/http/item"
-	services "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
+	clientService "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/client"
+	itemService "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,10 +20,15 @@ func newApp(cfg config.Config) *echo.Echo {
 
 	database.ConectaDB(cfg.DatabaseConfig.Host, cfg.DatabaseConfig.User, cfg.DatabaseConfig.Password, cfg.DatabaseConfig.DbName, cfg.DatabaseConfig.Port)
 
-	itemRepository := item.NewRepository(database.DB)
-	itemService := services.NewItemService(itemRepository)
+	itemRepository := itemRepository.NewRepository(database.DB)
+	itemService := itemService.NewItemService(itemRepository)
 	itemHandler := itemHandler.NewItemHandler(itemService)
 	itemHandler.RegisterRoutes(app)
+
+	clientRepository := clientRepository.NewRepository(database.DB)
+	clientService := clientService.NewClientService(clientRepository)
+	clientHandler := clientHandler.NewClientHandler(clientService)
+	clientHandler.RegisterRoutes(app)
 
 	return app
 }
