@@ -44,9 +44,7 @@ func (h *itemHandler) GetAll(echo echo.Context) error {
 	itemRepository := item.NewRepository(h.orm)
 	service := services.NewItemService(itemRepository)
 
-	items, err := service.GetAll(domain.Item{
-		Category: category,
-	})
+	items, err := service.GetAll(category)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
@@ -77,12 +75,7 @@ func (h *itemHandler) Create(echo echo.Context) error {
 	itemRepository := item.NewRepository(h.orm)
 	service := services.NewItemService(itemRepository)
 
-	item, err := service.Create(domain.Item{
-		Name:     itemDto.Name,
-		Category: itemDto.Category,
-		Price:    itemDto.Price,
-		ImageUrl: itemDto.ImageUrl,
-	})
+	item, err := service.Create(itemDto)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
@@ -119,12 +112,7 @@ func (h *itemHandler) Update(echo echo.Context) error {
 	itemRepository := item.NewRepository(h.orm)
 	service := services.NewItemService(itemRepository)
 
-	item, err := service.Update(uint32(id), domain.Item{
-		Name:     itemDto.Name,
-		Category: itemDto.Category,
-		Price:    itemDto.Price,
-		ImageUrl: itemDto.ImageUrl,
-	})
+	item, err := service.Update(uint32(id), itemDto)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
