@@ -65,15 +65,17 @@ func TestCreate(t *testing.T) {
 		ImageUrl: "www.aaa.com.br",
 	}
 
+	itemDomainToCreate, _ := domain.NewItem(itemToCreate)
+
 	itemRepo := mock_repository.NewMockItemRepository(ctrl)
-	itemRepo.EXPECT().Create(itemToCreate).Return(&itemToCreate, nil).Times(1)
+	itemRepo.EXPECT().Create(*itemDomainToCreate).Return(itemDomainToCreate, nil).Times(1)
 
 	itemService := services.NewItemService(itemRepo)
 
 	createdItem, err := itemService.Create(itemToCreate)
 
 	assert.NoError(t, err)
-	assert.Equal(t, itemToCreate, *createdItem)
+	assert.Equal(t, itemDomainToCreate, createdItem)
 }
 
 func TestCreateError(t *testing.T) {
@@ -87,11 +89,10 @@ func TestCreateError(t *testing.T) {
 		ImageUrl: "www.aaa.com.br",
 	}
 
-
 	itemToCreateDomain := domain.Item{
-		Name: itemToCreateDto.Name,
+		Name:     itemToCreateDto.Name,
 		Category: itemToCreateDto.Category,
-		Price: itemToCreateDto.Price,
+		Price:    itemToCreateDto.Price,
 		ImageUrl: itemToCreateDto.ImageUrl,
 	}
 
@@ -116,10 +117,9 @@ func TestUpdate(t *testing.T) {
 	}
 
 	itemToUpdateDomain := domain.Item{
-		ID: 1,
-		Name: itemToUpdateDto.Name,
+		Name:     itemToUpdateDto.Name,
 		Category: itemToUpdateDto.Category,
-		Price: itemToUpdateDto.Price,
+		Price:    itemToUpdateDto.Price,
 		ImageUrl: itemToUpdateDto.ImageUrl,
 	}
 
@@ -147,10 +147,10 @@ func TestUpdateNotFoundItemError(t *testing.T) {
 	}
 
 	itemToUpdateDomain := domain.Item{
-		ID: 1,
-		Name: itemToUpdateDto.Name,
+		ID:       1,
+		Name:     itemToUpdateDto.Name,
 		Category: itemToUpdateDto.Category,
-		Price: itemToUpdateDto.Price,
+		Price:    itemToUpdateDto.Price,
 		ImageUrl: itemToUpdateDto.ImageUrl,
 	}
 
@@ -176,10 +176,9 @@ func TestUpdateError(t *testing.T) {
 	}
 
 	itemToUpdateDomain := domain.Item{
-		ID: 1,
-		Name: itemToUpdateDto.Name,
+		Name:     itemToUpdateDto.Name,
 		Category: itemToUpdateDto.Category,
-		Price: itemToUpdateDto.Price,
+		Price:    itemToUpdateDto.Price,
 		ImageUrl: itemToUpdateDto.ImageUrl,
 	}
 
