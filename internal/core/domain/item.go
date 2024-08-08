@@ -22,13 +22,13 @@ func (item Item) ValidateCategory() error {
 		&item,
 		validation.Field(
 			&item.Category,
-			validation.In(item.allowedCategories()),
+			validation.In(item.allowedCategories()...),
 		),
 	)
 }
 
 func (item Item) allowedCategories() []interface{} {
-	return []interface{}{
+	return []interface{} {
 		"LANCHE",
 		"ACOMPANHAMENTO",
 		"BEBIDA",
@@ -37,6 +37,7 @@ func (item Item) allowedCategories() []interface{} {
 }
 
 func (item Item) Validate() error {
+	allowedCategories := item.allowedCategories()
 	return validation.ValidateStruct(
 		&item,
 		validation.Field(
@@ -47,7 +48,7 @@ func (item Item) Validate() error {
 		validation.Field(
 			&item.Category,
 			validation.Required,
-			validation.In(item.allowedCategories()...),
+			validation.In(allowedCategories...),
 		),
 		validation.Field(
 			&item.Price,
