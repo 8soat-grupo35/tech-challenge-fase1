@@ -5,15 +5,21 @@ import (
 	"fmt"
 
 	database "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven"
-	clientRepository "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/client"
+	customerRepository "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/customer"
 	itemRepository "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/item"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/config"
-	clientHandler "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/http/client"
+	customerHandler "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/http/customer"
 	itemHandler "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/http/item"
-	clientService "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/client"
+	customerService "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/customer"
 	itemService "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
 	"github.com/labstack/echo/v4"
 )
+
+func Start(cfg config.Config) {
+	fmt.Println(context.Background(), fmt.Sprintf("Starting a server at http://%s", cfg.ServerHost))
+	app := newApp(cfg)
+	app.Logger.Fatal(app.Start(cfg.ServerHost))
+}
 
 func newApp(cfg config.Config) *echo.Echo {
 	app := echo.New()
@@ -25,16 +31,10 @@ func newApp(cfg config.Config) *echo.Echo {
 	itemHandler := itemHandler.NewItemHandler(itemService)
 	itemHandler.RegisterRoutes(app)
 
-	clientRepository := clientRepository.NewRepository(database.DB)
-	clientService := clientService.NewClientService(clientRepository)
-	clientHandler := clientHandler.NewClientHandler(clientService)
-	clientHandler.RegisterRoutes(app)
+	customerRepository := customerRepository.NewRepository(database.DB)
+	customerService := customerService.NewCustomerService(customerRepository)
+	customerHandler := customerHandler.NewCustomerHandler(customerService)
+	customerHandler.RegisterRoutes(app)
 
 	return app
-}
-
-func Start(cfg config.Config) {
-	fmt.Println(context.Background(), fmt.Sprintf("Starting a server at http://%s", cfg.ServerHost))
-	app := newApp(cfg)
-	app.Logger.Fatal(app.Start(cfg.ServerHost))
 }

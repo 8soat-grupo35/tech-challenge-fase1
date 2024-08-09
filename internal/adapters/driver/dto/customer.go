@@ -1,6 +1,6 @@
 package dto
 
-type ClientDto struct {
+type CustomerDto struct {
 	Id    uint32 `param:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`

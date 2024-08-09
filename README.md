@@ -19,7 +19,7 @@ go run cmd/api main.go
 
 
 ```
-http://localhost:8000/items
+http://localhost:8000/v1/item
 ```
 
 # Rodar os testes
