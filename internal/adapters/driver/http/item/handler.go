@@ -7,6 +7,7 @@ import (
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/domain"
 	itemService "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports/service"
+	"github.com/labstack/echo/v4"
 )
 
 type ItemHandler struct {
@@ -39,9 +40,7 @@ func (h *ItemHandler) GetAll(echo echo.Context) error {
 
 	category := echo.QueryParam("category")
 
-	items, err := h.itemService.GetAll(domain.Item{
-		Category: category,
-	})
+	items, err := h.itemService.GetAll(category)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
@@ -69,12 +68,7 @@ func (h *ItemHandler) Create(echo echo.Context) error {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	item, err := h.itemService.Create(domain.Item{
-		Name:     itemDto.Name,
-		Category: itemDto.Category,
-		Price:    itemDto.Price,
-		ImageUrl: itemDto.ImageUrl,
-	})
+	item, err := h.itemService.Create(itemDto)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
@@ -108,12 +102,7 @@ func (h *ItemHandler) Update(echo echo.Context) error {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	item, err := h.itemService.Update(uint32(id), domain.Item{
-		Name:     itemDto.Name,
-		Category: itemDto.Category,
-		Price:    itemDto.Price,
-		ImageUrl: itemDto.ImageUrl,
-	})
+	item, err := h.itemService.Update(uint32(id), itemDto)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
