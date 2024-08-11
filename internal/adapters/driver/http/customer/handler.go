@@ -22,6 +22,7 @@ func (c CustomerHandler) RegisterRoutes(server *echo.Echo) {
 	customerGroupV1 := server.Group("/v1/customer")
 	customerGroupV1.GET("", c.GetAll)
 	customerGroupV1.POST("", c.Create)
+	customerGroupV1.PUT("/:id", c.Update)
 	customerGroupV1.GET("/cpf/:cpf", c.GetByCpf)
 	customerGroupV1.DELETE("/:id", c.Delete)
 }
