@@ -30,7 +30,8 @@ services:
       postgres:
         condition: service_healthy  
     container_name: fastfood_app
-    image: tech-challenge
+    volumes:
+      - ./:/app
     build: .
     ports:
       - "8000:8000"
