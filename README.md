@@ -1,27 +1,34 @@
-# Rodar a aplicação 
+# CHALLENGE SOAT8 - GRUPO 35
 
-1. Subir o container de banco de dados:
+## Conteúdo
+
+- [Sobre](#sobre)
+- [DDD - Event Storming](#ddd---event-storming)
+- [Como rodar a aplicação](#como-rodar-a-aplicação)
+- [Contribuidores](#contribuidores)
+
+## Sobre
+
+Neste primeira fase desenvolvemos uma projeto para o curso de Pós Graduação em Software Architecture da FIAP com os requisitos solicitados no [Challenge](https://on.fiap.com.br/mod/conteudoshtml/view.php?id=407435&c=11255). Foi desenvolvido pelo **Grupo 35** da **SOAT8**.
+
+
+## DDD - Event Storming
+
+Disponibilizamos através deste [link](https://miro.com/app/board/uXjVK4xDf-w=/?share_link_id=428293472540) o Event Storming realizado pela equipe com todas etapas realizadas.
+
+## Como rodar a aplicação
+
+Para rodar a aplicação, deve-se executar o comando:
 
 ```
 docker-compose up
 ```
 
-2. Rodar a aplicação:
+Para visualizar o **Swagger**, devemos manter a aplicação rodando e acessar a URL abaixo:
 
-```
-go run cmd/api main.go
-```
+`http://localhost:8000/swagger/index.html`
 
-> Posteriomente colocaremos este passo no Docker.
-
-
-3. Consumir endpoint
-
-
-```
-http://localhost:8000/items
-```
-
+<!-- 
 # Rodar os testes
 
 1. Instalação do gomock para execução dos testes localmente
@@ -40,4 +47,10 @@ go generate ./...
 
 ```
 go test ./test/...
-```
+``` -->
+
+## Contribuidores
+
+- Egio Lima
+- Gabriel Rosa Nunes
+- Jhony Eduardo Senem
