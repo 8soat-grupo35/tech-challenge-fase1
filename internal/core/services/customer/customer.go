@@ -3,6 +3,8 @@ package customer
 import (
 	"errors"
 
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
+	custom_errors "github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/errors"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/domain"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports/repository"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports/service"
@@ -29,8 +31,16 @@ func (service *customerService) GetAll() ([]domain.Customer, error) {
 }
 
 // Create implements ports.CustomerService.
-func (service *customerService) Create(customer domain.Customer) (*domain.Customer, error) {
-	customerSaved, err := service.customerRepository.Create(customer)
+func (service *customerService) Create(customer dto.CustomerDto) (*domain.Customer, error) {
+	newCustomer, err := domain.NewCustomer(customer)
+
+	if err != nil {
+		return nil, &custom_errors.BadRequestError{
+			Message: err.Error(),
+		}
+	}
+
+	customerSaved, err := service.customerRepository.Create(*newCustomer)
 
 	if err != nil {
 		return nil, errors.New("create customer on repository has failed")
@@ -53,10 +63,18 @@ func (service *customerService) GetByCpf(cpf string) (*domain.Customer, error) {
 }
 
 // Update implements ports.CustomerService.
-func (service *customerService) Update(customerId uint32, customer domain.Customer) (*domain.Customer, error) {
+func (service *customerService) Update(customerId uint32, customer dto.CustomerDto) (*domain.Customer, error) {
+
+	customerToUpdate, err := domain.NewCustomer(customer)
+
+	if err != nil {
+		return nil, &custom_errors.BadRequestError{
+			Message: err.Error(),
+		}
+	}
 
 	customerAlreadySaved, err := service.customerRepository.GetOne(domain.Customer{
-		Id: customerId,
+		ID: customerId,
 	})
 
 	if err != nil {
@@ -67,7 +85,7 @@ func (service *customerService) Update(customerId uint32, customer domain.Custom
 		return nil, errors.New("customer not found to update")
 	}
 
-	customerUpdated, err := service.customerRepository.Update(customerId, customer)
+	customerUpdated, err := service.customerRepository.Update(customerId, *customerToUpdate)
 
 	if err != nil {
 		return nil, errors.New("updated customer on repository has failed")
@@ -79,7 +97,7 @@ func (service *customerService) Update(customerId uint32, customer domain.Custom
 // Delete implements ports.CustomerService.
 func (service *customerService) Delete(customerId uint32) error {
 	customerAlreadySaved, err := service.customerRepository.GetOne(domain.Customer{
-		Id: customerId,
+		ID: customerId,
 	})
 
 	if err != nil {

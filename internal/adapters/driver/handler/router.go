@@ -3,7 +3,6 @@ package handler
 import (
 	_ "github.com/8soat-grupo35/tech-challenge-fase1/docs"
 	"github.com/labstack/echo/v4"
-	echoSwagger "github.com/swaggo/echo-swagger"
 	"gorm.io/gorm"
 )
 

@@ -32,7 +32,7 @@ func (h ItemHandler) RegisterRoutes(server *echo.Echo) {
 // @Tags         Items
 // @Accept       json
 // @Produce      json
-// @Router       /items [get]
+// @Router       /v1/item [get]
 // @success 200  {object} domain.Item
 // @Failure 500 {object} error
 func (h *ItemHandler) GetAll(echo echo.Context) error {
@@ -56,7 +56,7 @@ func (h *ItemHandler) GetAll(echo echo.Context) error {
 // @Accept       json
 // @Produce      json
 // @Param        ItemToInsert	body dto.ItemDto true "teste"
-// @Router       /item [post]
+// @Router       /v1/item [post]
 // @success 200 {array} domain.Item
 // @Failure 500 {object} error
 func (h *ItemHandler) Create(echo echo.Context) error {
@@ -85,7 +85,7 @@ func (h *ItemHandler) Create(echo echo.Context) error {
 // @Produce      json
 // @Param		 Id             path int         true "ID do item"
 // @Param        ItemToInsert	body dto.ItemDto true "teste"
-// @Router       /item/{id} [put]
+// @Router       /v1/item/{id} [put]
 // @success 200 {array} domain.Item
 // @Failure 500 {object} error
 func (h *ItemHandler) Update(echo echo.Context) error {
@@ -118,7 +118,7 @@ func (h *ItemHandler) Update(echo echo.Context) error {
 // @Accept       json
 // @Produce      json
 // @Param		 Id             path int         true "ID do item"
-// @Router       /item/{id} [delete]
+// @Router       /v1/item/{id} [delete]
 // @success 200 {string}  string    "item deleted successfully"
 // @Failure 500 {object} error
 func (h *ItemHandler) Delete(echo echo.Context) error {

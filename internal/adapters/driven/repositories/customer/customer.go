@@ -50,7 +50,7 @@ func (c *customerRepository) Create(customer domain.Customer) (*domain.Customer,
 }
 
 func (c *customerRepository) Update(customerId uint32, customer domain.Customer) (*domain.Customer, error) {
-	customerModel := domain.Customer{Id: customerId}
+	customerModel := domain.Customer{ID: customerId}
 	result := c.orm.Model(&customerModel).Updates(&customer)
 
 	if result.Error != nil {
