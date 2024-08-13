@@ -4,27 +4,26 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/item"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/core/domain"
-	services "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/item"
+	itemService "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports/service"
 	"github.com/labstack/echo/v4"
 )
 
-//go:generate mockgen -source=item_handler.go -destination=../../../../test/adapters/driver/handler/mock/item_handler_mock.go
-type ItemHandler interface {
-	GetAll(echo echo.Context) error
-	Create(echo echo.Context) error
-	Update(echo echo.Context) error
-	Delete(echo echo.Context) error
+type ItemHandler struct {
+	itemService itemService.ItemService
 }
 
-type itemHandler struct {
-	*handler
+func NewItemHandler(itemService itemService.ItemService) ItemHandler {
+	return ItemHandler{itemService: itemService}
 }
 
-func (h *handler) NewItemHandler() ItemHandler {
-	return &itemHandler{h}
+func (h ItemHandler) RegisterRoutes(server *echo.Echo) {
+	itemV1Group := server.Group("/v1/item")
+	itemV1Group.GET("", h.GetAll)
+	itemV1Group.POST("", h.Create)
+	itemV1Group.PUT("/:id", h.Update)
+	itemV1Group.DELETE("/:id", h.Delete)
 }
 
 // GetAll godoc
@@ -33,18 +32,15 @@ func (h *handler) NewItemHandler() ItemHandler {
 // @Tags         Items
 // @Accept       json
 // @Produce      json
-// @Router       /items [get]
+// @Router       /v1/item [get]
 // @success 200  {object} domain.Item
 // @Failure 500 {object} error
-func (h *itemHandler) GetAll(echo echo.Context) error {
+func (h *ItemHandler) GetAll(echo echo.Context) error {
 	var items []domain.Item
 
 	category := echo.QueryParam("category")
 
-	itemRepository := item.NewRepository(h.orm)
-	service := services.NewItemService(itemRepository)
-
-	items, err := service.GetAll(category)
+	items, err := h.itemService.GetAll(category)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
@@ -60,10 +56,10 @@ func (h *itemHandler) GetAll(echo echo.Context) error {
 // @Accept       json
 // @Produce      json
 // @Param        ItemToInsert	body dto.ItemDto true "teste"
-// @Router       /item [post]
+// @Router       /v1/item [post]
 // @success 200 {array} domain.Item
 // @Failure 500 {object} error
-func (h *itemHandler) Create(echo echo.Context) error {
+func (h *ItemHandler) Create(echo echo.Context) error {
 	itemDto := dto.ItemDto{}
 
 	err := echo.Bind(&itemDto)
@@ -72,10 +68,7 @@ func (h *itemHandler) Create(echo echo.Context) error {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	itemRepository := item.NewRepository(h.orm)
-	service := services.NewItemService(itemRepository)
-
-	item, err := service.Create(itemDto)
+	item, err := h.itemService.Create(itemDto)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
@@ -92,10 +85,10 @@ func (h *itemHandler) Create(echo echo.Context) error {
 // @Produce      json
 // @Param		 Id             path int         true "ID do item"
 // @Param        ItemToInsert	body dto.ItemDto true "teste"
-// @Router       /item/{id} [put]
+// @Router       /v1/item/{id} [put]
 // @success 200 {array} domain.Item
 // @Failure 500 {object} error
-func (h *itemHandler) Update(echo echo.Context) error {
+func (h *ItemHandler) Update(echo echo.Context) error {
 	itemDto := dto.ItemDto{}
 
 	err := echo.Bind(&itemDto)
@@ -109,10 +102,7 @@ func (h *itemHandler) Update(echo echo.Context) error {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	itemRepository := item.NewRepository(h.orm)
-	service := services.NewItemService(itemRepository)
-
-	item, err := service.Update(uint32(id), itemDto)
+	item, err := h.itemService.Update(uint32(id), itemDto)
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
@@ -128,20 +118,17 @@ func (h *itemHandler) Update(echo echo.Context) error {
 // @Accept       json
 // @Produce      json
 // @Param		 Id             path int         true "ID do item"
-// @Router       /item/{id} [delete]
+// @Router       /v1/item/{id} [delete]
 // @success 200 {string}  string    "item deleted successfully"
 // @Failure 500 {object} error
-func (h *itemHandler) Delete(echo echo.Context) error {
+func (h *ItemHandler) Delete(echo echo.Context) error {
 	id, err := strconv.Atoi(echo.Param("id"))
 
 	if err != nil {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	itemRepository := item.NewRepository(h.orm)
-	service := services.NewItemService(itemRepository)
-
-	err = service.Delete(uint32(id))
+	err = h.itemService.Delete(uint32(id))
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())

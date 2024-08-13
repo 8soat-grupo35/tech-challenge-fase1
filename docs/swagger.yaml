@@ -1,4 +1,15 @@
 definitions:
+  CustomerDto:
+    properties:
+      cpf:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   ItemDto:
     properties:
       category:
@@ -9,6 +20,23 @@ definitions:
         type: string
       price:
         type: number
+    type: object
+  domain.Customer:
+    properties:
+      cpf:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
     type: object
   domain.Item:
     properties:
@@ -40,7 +68,147 @@ definitions:
 info:
   contact: {}
 paths:
-  /item:
+  /v1/customer:
+    get:
+      consumes:
+      - application/json
+      description: List All Customers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Customer'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: List Customers
+      tags:
+      - Customers
+    post:
+      consumes:
+      - application/json
+      description: Insert Customer
+      parameters:
+      - description: teste
+        in: body
+        name: CustomerToInsert
+        required: true
+        schema:
+          $ref: '#/definitions/CustomerDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Customer'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Insert Customer
+      tags:
+      - Customers
+  /v1/customer/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Customer
+      parameters:
+      - description: ID do customer
+        in: path
+        name: Id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: customer deleted successfully
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Delete Customer
+      tags:
+      - Customers
+    put:
+      consumes:
+      - application/json
+      description: Update Customer
+      parameters:
+      - description: ID do customer
+        in: path
+        name: Id
+        required: true
+        type: integer
+      - description: teste
+        in: body
+        name: CustomerToInsert
+        required: true
+        schema:
+          $ref: '#/definitions/CustomerDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Customer'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Update Customer
+      tags:
+      - Customers
+  /v1/customer/cpf/{cpf}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a customer by their CPF
+      parameters:
+      - description: CPF of the customer
+        in: path
+        name: cpf
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Customer'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Get Customer by CPF
+      tags:
+      - Customers
+  /v1/item:
+    get:
+      consumes:
+      - application/json
+      description: List All Items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Item'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: List Items
+      tags:
+      - Items
     post:
       consumes:
       - application/json
@@ -67,7 +235,7 @@ paths:
       summary: Insert Item
       tags:
       - Items
-  /item/{id}:
+  /v1/item/{id}:
     delete:
       consumes:
       - application/json
@@ -120,24 +288,6 @@ paths:
           description: Internal Server Error
           schema: {}
       summary: Update Item
-      tags:
-      - Items
-  /items:
-    get:
-      consumes:
-      - application/json
-      description: List All Items
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/domain.Item'
-        "500":
-          description: Internal Server Error
-          schema: {}
-      summary: List Items
       tags:
       - Items
 swagger: "2.0"

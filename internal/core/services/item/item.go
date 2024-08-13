@@ -27,14 +27,13 @@ func (service *itemService) GetAll(category string) ([]domain.Item, error) {
 	if category != "" {
 		filter.Category = category
 		err := filter.ValidateCategory()
-	
+
 		if err != nil {
 			return []domain.Item{}, &custom_errors.BadRequestError{
 				Message: err.Error(),
 			}
 		}
 	}
-
 
 	items, err := service.itemRepository.GetAll(filter)
 

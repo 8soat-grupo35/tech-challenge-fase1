@@ -3,7 +3,6 @@ package handler
 import (
 	_ "github.com/8soat-grupo35/tech-challenge-fase1/docs"
 	"github.com/labstack/echo/v4"
-	echoSwagger "github.com/swaggo/echo-swagger"
 	"gorm.io/gorm"
 )
 
@@ -30,12 +29,12 @@ func SetupRouter(db *gorm.DB) *echo.Echo {
 // @host localhost:8000
 // @BasePath /
 func mapRoutes(echo *echo.Echo, orm *gorm.DB) {
-	handler := NewHandler(orm)
-	echo.GET("/swagger*", echoSwagger.WrapHandler)
-	echo.GET("/items", handler.NewItemHandler().GetAll)
-	echo.POST("/item", handler.NewItemHandler().Create)
-	echo.PUT("/item/:id", handler.NewItemHandler().Update)
-	echo.DELETE("/item/:id", handler.NewItemHandler().Delete)
+	//handler := NewHandler(orm)
+	//
+	//echo.GET("/items", handler.NewItemHandler().GetAll)
+	//echo.POST("/item", handler.NewItemHandler().Create)
+	//echo.PUT("/item/:id", handler.NewItemHandler().Update)
+	//echo.DELETE("/item/:id", handler.NewItemHandler().Delete)
 
 	echo.Logger.Fatal(echo.Start(":8000"))
 }
