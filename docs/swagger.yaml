@@ -209,7 +209,7 @@ paths:
       parameters:
       - description: ID do item
         in: path
-        name: Id
+        name: id
         required: true
         type: integer
       produces:
@@ -232,7 +232,7 @@ paths:
       parameters:
       - description: ID do item
         in: path
-        name: Id
+        name: id
         required: true
         type: integer
       - description: teste
