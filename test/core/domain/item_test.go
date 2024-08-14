@@ -81,7 +81,7 @@ func TestNewItemCategoryNotInAllowedValues(t *testing.T) {
 	itemResult, err := domain.NewItem(itemTest)
 
 	assert.Error(t, err)
-	assert.EqualError(t, err, "Category: must be a valid value.")
+	assert.EqualError(t, err, "Category: must be a valid value between (lanche,sobremesa,acompanhamento,bebida).")
 	assert.Equal(t, itemResult, (*domain.Item)(nil))
 }
 

@@ -83,7 +83,7 @@ func (h *ItemHandler) Create(echo echo.Context) error {
 // @Tags         Items
 // @Accept       json
 // @Produce      json
-// @Param		 Id             path int         true "ID do item"
+// @Param		 id             path int         true "ID do item"
 // @Param        ItemToInsert	body dto.ItemDto true "teste"
 // @Router       /v1/item/{id} [put]
 // @success 200 {array} domain.Item
@@ -117,7 +117,7 @@ func (h *ItemHandler) Update(echo echo.Context) error {
 // @Tags         Items
 // @Accept       json
 // @Produce      json
-// @Param		 Id             path int         true "ID do item"
+// @Param		 id             path int         true "ID do item"
 // @Router       /v1/item/{id} [delete]
 // @success 200 {string}  string    "item deleted successfully"
 // @Failure 500 {object} error

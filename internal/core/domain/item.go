@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"strings"
+
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
@@ -22,7 +24,7 @@ func (item Item) ValidateCategory() error {
 		&item,
 		validation.Field(
 			&item.Category,
-			validation.In(item.allowedCategories()...),
+			validation.In(item.allowedCategories()...).Error("must be a valid value between (lanche,sobremesa,acompanhamento,bebida)"),
 		),
 	)
 }
@@ -48,7 +50,7 @@ func (item Item) Validate() error {
 		validation.Field(
 			&item.Category,
 			validation.Required,
-			validation.In(allowedCategories...),
+			validation.In(allowedCategories...).Error("must be a valid value between (lanche,sobremesa,acompanhamento,bebida)"),
 		),
 		validation.Field(
 			&item.Price,
@@ -66,7 +68,7 @@ func (item Item) Validate() error {
 func NewItem(item dto.ItemDto) (*Item, error) {
 	newItem := Item{
 		Name:     item.Name,
-		Category: item.Category,
+		Category: strings.ToUpper(item.Category),
 		Price:    item.Price,
 		ImageUrl: item.ImageUrl,
 	}
