@@ -17,9 +17,9 @@ func NewOrderHandler(orderService service.OrderService) OrderHandler {
 }
 
 func (h OrderHandler) RegisterRoutes(server *echo.Echo) {
-	itemV1Group := server.Group("/v1/orders")
-	itemV1Group.GET("", h.GetAll)
-	itemV1Group.POST("/checkout", h.Checkout)
+	orderV1Group := server.Group("/v1/orders")
+	orderV1Group.GET("", h.GetAll)
+	orderV1Group.POST("/checkout", h.Checkout)
 }
 
 // GetAll godoc
@@ -28,7 +28,7 @@ func (h OrderHandler) RegisterRoutes(server *echo.Echo) {
 // @Tags         Orders
 // @Accept       json
 // @Produce      json
-// @Router       /orders [get]
+// @Router       /v1/orders [get]
 // @Success 200  {object} domain.Order
 // @Failure 500  {object} error
 func (h *OrderHandler) GetAll(echo echo.Context) error {
@@ -48,7 +48,7 @@ func (h *OrderHandler) GetAll(echo echo.Context) error {
 // @Accept       json
 // @Produce      json
 // @Param        Order	body dto.OrderDto true "Order to create"
-// @Router       /checkout [post]
+// @Router       /v1/orders/checkout [post]
 // @success 200 {array} domain.Order
 // @Failure 500 {object} error
 func (h *OrderHandler) Checkout(echo echo.Context) error {

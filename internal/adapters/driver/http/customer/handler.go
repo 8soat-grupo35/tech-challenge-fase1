@@ -27,15 +27,6 @@ func (c CustomerHandler) RegisterRoutes(server *echo.Echo) {
 	customerGroupV1.DELETE("/:id", c.Delete)
 }
 
-// GetAll godoc
-// @Summary      List Customers
-// @Description  List All Customers
-// @Tags         Customers
-// @Accept       json
-// @Produce      json
-// @Router       /v1/customer [get]
-// @success 200  {object} domain.Customer
-// @Failure 500 {object} error
 func (h *CustomerHandler) GetAll(echo echo.Context) error {
 	var customers []domain.Customer
 
@@ -76,17 +67,6 @@ func (h *CustomerHandler) Create(echo echo.Context) error {
 	return echo.JSON(http.StatusOK, customer)
 }
 
-// Update godoc
-// @Summary      Update Customer
-// @Description  Update Customer
-// @Tags         Customers
-// @Accept       json
-// @Produce      json
-// @Param		 Id             path int         true "ID do customer"
-// @Param        CustomerToInsert	body dto.CustomerDto true "teste"
-// @Router       /v1/customer/{id} [put]
-// @success 200 {array} domain.Customer
-// @Failure 500 {object} error
 func (h *CustomerHandler) Update(echo echo.Context) error {
 	customerDto := dto.CustomerDto{}
 
@@ -110,16 +90,6 @@ func (h *CustomerHandler) Update(echo echo.Context) error {
 	return echo.JSON(http.StatusOK, customer)
 }
 
-// Delete godoc
-// @Summary      Delete Customer
-// @Description  Delete Customer
-// @Tags         Customers
-// @Accept       json
-// @Produce      json
-// @Param		 Id             path int         true "ID do customer"
-// @Router       /v1/customer/{id} [delete]
-// @success 200 {string}  string    "customer deleted successfully"
-// @Failure 500 {object} error
 func (h *CustomerHandler) Delete(echo echo.Context) error {
 	id, err := strconv.Atoi(echo.Param("id"))
 
