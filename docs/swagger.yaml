@@ -21,6 +21,22 @@ definitions:
       price:
         type: number
     type: object
+  OrderDto:
+    properties:
+      customer_id:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/OrderItemDto'
+        type: array
+    type: object
+  OrderItemDto:
+    properties:
+      id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
   domain.Customer:
     properties:
       cpf:
@@ -57,6 +73,28 @@ definitions:
       updatedAt:
         type: string
     type: object
+  domain.Order:
+    properties:
+      created_at:
+        type: string
+      customer_id:
+        type: integer
+      id:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/domain.OrderItem'
+        type: array
+      updated_at:
+        type: string
+    type: object
+  domain.OrderItem:
+    properties:
+      id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
   gorm.DeletedAt:
     properties:
       time:
@@ -69,23 +107,6 @@ info:
   contact: {}
 paths:
   /v1/customer:
-    get:
-      consumes:
-      - application/json
-      description: List All Customers
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/domain.Customer'
-        "500":
-          description: Internal Server Error
-          schema: {}
-      summary: List Customers
-      tags:
-      - Customers
     post:
       consumes:
       - application/json
@@ -110,61 +131,6 @@ paths:
           description: Internal Server Error
           schema: {}
       summary: Insert Customer
-      tags:
-      - Customers
-  /v1/customer/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete Customer
-      parameters:
-      - description: ID do customer
-        in: path
-        name: Id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: customer deleted successfully
-          schema:
-            type: string
-        "500":
-          description: Internal Server Error
-          schema: {}
-      summary: Delete Customer
-      tags:
-      - Customers
-    put:
-      consumes:
-      - application/json
-      description: Update Customer
-      parameters:
-      - description: ID do customer
-        in: path
-        name: Id
-        required: true
-        type: integer
-      - description: teste
-        in: body
-        name: CustomerToInsert
-        required: true
-        schema:
-          $ref: '#/definitions/CustomerDto'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/domain.Customer'
-            type: array
-        "500":
-          description: Internal Server Error
-          schema: {}
-      summary: Update Customer
       tags:
       - Customers
   /v1/customer/cpf/{cpf}:
@@ -290,4 +256,49 @@ paths:
       summary: Update Item
       tags:
       - Items
+  /v1/orders:
+    get:
+      consumes:
+      - application/json
+      description: List All Orders
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Order'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: List Orders
+      tags:
+      - Orders
+  /v1/orders/checkout:
+    post:
+      consumes:
+      - application/json
+      description: Insert Order
+      parameters:
+      - description: Order to create
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/OrderDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Order'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Insert Order
+      tags:
+      - Orders
 swagger: "2.0"
