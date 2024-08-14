@@ -3,24 +3,23 @@ package handler
 import (
 	"net/http"
 
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driven/repositories/order"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/dto"
-	services "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/services/order"
+	service "github.com/8soat-grupo35/tech-challenge-fase1/internal/core/ports/service"
 	"github.com/labstack/echo/v4"
 )
 
-//go:generate mockgen -source=order_handler.go -destination=../../../../test/adapters/driver/handler/mock/order_handler_mock.go
-type OrderHandler interface {
-	GetAll(echo echo.Context) error
-	Checkout(echo echo.Context) error
+type OrderHandler struct {
+	orderService service.OrderService
 }
 
-type orderHandler struct {
-	*handler
+func NewOrderHandler(orderService service.OrderService) OrderHandler {
+	return OrderHandler{orderService: orderService}
 }
 
-func (h *handler) NewOrderHandler() OrderHandler {
-	return &orderHandler{h}
+func (h OrderHandler) RegisterRoutes(server *echo.Echo) {
+	itemV1Group := server.Group("/v1/orders")
+	itemV1Group.GET("", h.GetAll)
+	itemV1Group.POST("/checkout", h.Checkout)
 }
 
 // GetAll godoc
@@ -32,11 +31,8 @@ func (h *handler) NewOrderHandler() OrderHandler {
 // @Router       /orders [get]
 // @Success 200  {object} domain.Order
 // @Failure 500  {object} error
-func (h *orderHandler) GetAll(echo echo.Context) error {
-	orderRepository := order.NewRepository(h.orm)
-	service := services.NewOrderService(orderRepository)
-
-	orders, err := service.GetAll()
+func (h *OrderHandler) GetAll(echo echo.Context) error {
+	orders, err := h.orderService.GetAll()
 
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
@@ -55,20 +51,15 @@ func (h *orderHandler) GetAll(echo echo.Context) error {
 // @Router       /checkout [post]
 // @success 200 {array} domain.Order
 // @Failure 500 {object} error
-func (h *orderHandler) Checkout(echo echo.Context) error {
+func (h *OrderHandler) Checkout(echo echo.Context) error {
 	orderDto := dto.OrderDto{}
 
 	err := echo.Bind(&orderDto)
-
 	if err != nil {
 		return echo.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	orderRepository := order.NewRepository(h.orm)
-	service := services.NewOrderService(orderRepository)
-
-	order, err := service.Create(orderDto)
-
+	order, err := h.orderService.Create(orderDto)
 	if err != nil {
 		return echo.JSON(http.StatusInternalServerError, err.Error())
 	}

@@ -28,7 +28,7 @@ func (item Item) ValidateCategory() error {
 }
 
 func (item Item) allowedCategories() []interface{} {
-	return []interface{} {
+	return []interface{}{
 		"LANCHE",
 		"ACOMPANHAMENTO",
 		"BEBIDA",
