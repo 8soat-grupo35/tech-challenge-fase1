@@ -3,6 +3,7 @@ module github.com/8soat-grupo35/tech-challenge-fase1
 go 1.22.2
 
 require (
+	github.com/golang/mock v1.6.0
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
