@@ -2,7 +2,7 @@ package repository
 
 import "github.com/8soat-grupo35/tech-challenge-fase1/src/entities"
 
-//go:generate mockgen -source=item.go -destination=../../test/gateways/mock/item_mock.go
+//go:generate mockgen -source=item.go -destination=../../../test/gateways/mock/item_mock.go
 type ItemRepository interface {
 	GetAll(entities.Item) ([]entities.Item, error)
 	GetOne(entities.Item) (*entities.Item, error)
