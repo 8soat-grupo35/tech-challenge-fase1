@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/config"
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/driver/http/server"
+	"github.com/8soat-grupo35/tech-challenge-fase1/src/api/app"
+	"github.com/8soat-grupo35/tech-challenge-fase1/src/external"
 )
 
 func main() {
 	fmt.Println("Iniciado o servidor Rest com GO")
-	cfg := config.GetConfig()
-	server.Start(cfg)
+	cfg := external.GetConfig()
+	app.Start(cfg)
 }
