@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/adapters/dto"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/entities"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
 )
 
 type OrderUseCase interface {

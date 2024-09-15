@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/adapters/dto"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/entities"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/gateways"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/interfaces/repository"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/interfaces/usecase"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/usecases"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/gateways"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/repository"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/usecase"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/usecases"
 	"gorm.io/gorm"
 )
 

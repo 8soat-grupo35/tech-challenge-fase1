@@ -12,7 +12,7 @@ package mock_repository
 import (
 	reflect "reflect"
 
-	entities "github.com/8soat-grupo35/tech-challenge-fase1/src/entities"
+	entities "github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
 	gomock "go.uber.org/mock/gomock"
 )
 

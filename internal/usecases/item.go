@@ -2,11 +2,11 @@ package usecases
 
 import (
 	"errors"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/adapters/dto"
-	custom_errors "github.com/8soat-grupo35/tech-challenge-fase1/src/api/errors"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/entities"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/interfaces/repository"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/interfaces/usecase"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
+	custom_errors "github.com/8soat-grupo35/tech-challenge-fase1/internal/api/errors"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/repository"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/usecase"
 	"log"
 )
 

@@ -2,11 +2,11 @@ package usecases
 
 import (
 	"errors"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/usecases"
 	"testing"
 
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/adapters/dto"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/entities"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/usecases"
 	mock_repository "github.com/8soat-grupo35/tech-challenge-fase1/test/gateways/mock"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	_ "github.com/8soat-grupo35/tech-challenge-fase1/docs"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/api/handlers"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/external"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/api/handlers"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/external"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )

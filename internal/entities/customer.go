@@ -1,7 +1,7 @@
 package entities
 
 import (
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/adapters/dto"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"gorm.io/gorm"

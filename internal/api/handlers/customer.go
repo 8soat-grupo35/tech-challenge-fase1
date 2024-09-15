@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/adapters/dto"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/controllers"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/controllers"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 	"net/http"

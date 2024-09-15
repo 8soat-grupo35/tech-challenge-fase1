@@ -1,8 +1,8 @@
 package gateways
 
 import (
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/entities"
-	"github.com/8soat-grupo35/tech-challenge-fase1/src/interfaces/repository"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/repository"
 	"gorm.io/gorm"
 	"log"
 )
