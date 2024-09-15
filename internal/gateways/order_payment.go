@@ -27,7 +27,7 @@ func (o orderPaymentGateway) Create(orderPayment entities.OrderPayment) (*entiti
 }
 
 func (o orderPaymentGateway) GetOneByOrderID(orderID uint32) (orderPayment *entities.OrderPayment, err error) {
-	result := o.orm.Preload("PaymentStatus").Where(entities.OrderPayment{OrderID: orderID}).First(orderPayment)
+	result := o.orm.Preload("PaymentStatus").Where(entities.OrderPayment{OrderID: orderID}).First(&orderPayment)
 
 	if result.Error != nil {
 		log.Println(result.Error)

@@ -50,7 +50,7 @@ func (o *OrderController) GetPaymentStatus(orderID uint32) (*presenters.OrderPay
 	orderPayment, err := o.orderPaymentUseCase.GetPayment(orderID)
 	if err != nil {
 		return nil, &custom_errors.NotFoundError{
-			Message: "order not found",
+			Message: err.Error(),
 		}
 	}
 

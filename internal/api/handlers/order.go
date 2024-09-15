@@ -65,6 +65,16 @@ func (h *OrderHandler) Checkout(echo echo.Context) error {
 	return echo.JSON(http.StatusOK, order)
 }
 
+// GetOrderPaymentStatus godoc
+// @Summary      Get Order Payment Status
+// @Description  Get Order Payment Status
+// @Tags         Orders
+// @Accept       json
+// @Produce      json
+// @Param		 orderID             path int         true "ID do pedido"
+// @Router       /v1/orders/{orderID}/payment/status [get]
+// @success 200 {object} presenters.OrderPaymentStatusPresenter
+// @Failure 500 {object} error
 func (h *OrderHandler) GetOrderPaymentStatus(echo echo.Context) error {
 	paramOrderID := echo.Param("orderID")
 	orderID, err := strconv.Atoi(paramOrderID)

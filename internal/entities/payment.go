@@ -36,7 +36,7 @@ func (orderPayment OrderPayment) Validate() error {
 		validation.Field(
 			&orderPayment.PaymentStatusID,
 			validation.Required,
-			validation.In(1, 2, 3),
+			validation.In(uint32(1), uint32(2), uint32(3)),
 		),
 	)
 }
