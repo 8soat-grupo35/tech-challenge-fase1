@@ -54,6 +54,7 @@ func newApp(cfg external.Config) *echo.Echo {
 	orderHandler := handlers.NewOrderHandler(external.DB)
 	orderV1Group := app.Group("/v1/orders")
 	orderV1Group.GET("", orderHandler.GetAll)
+	orderV1Group.GET("/:orderId/payment/status", orderHandler.GetOrderPaymentStatus)
 	orderV1Group.POST("/checkout", orderHandler.Checkout)
 
 	return app

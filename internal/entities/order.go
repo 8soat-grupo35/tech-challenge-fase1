@@ -8,15 +8,15 @@ import (
 )
 
 type OrderItem struct {
-	ID       uint `gorm:"primarykey;autoIncrement" json:"-"`
-	OrderID  uint `json:"-"`
-	ItemID   uint `json:"id"`
-	Quantity uint `json:"quantity"`
-	Item     Item `gorm:"references:ID" json:"-"`
+	ID       uint32 `gorm:"primarykey;autoIncrement" json:"-"`
+	OrderID  uint32 `json:"-"`
+	ItemID   uint32 `json:"id"`
+	Quantity uint32 `json:"quantity"`
+	Item     Item   `gorm:"references:ID" json:"-"`
 } //@name domain.OrderItem
 
 type Order struct {
-	ID         uint        `gorm:"primarykey;autoIncrement" json:"id"`
+	ID         uint32      `gorm:"primarykey;autoIncrement" json:"id"`
 	Items      []OrderItem `gorm:"foreignKey:OrderID;references:ID;constraint:OnDelete:CASCADE" json:"items"`
 	CustomerID uint32      `json:"customer_id"`
 

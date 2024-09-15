@@ -1,8 +1,8 @@
 package dto
 
 type OrderItemDto struct {
-	Id       uint `json:"id"`
-	Quantity uint `json:"quantity"`
+	Id       uint32 `json:"id"`
+	Quantity uint32 `json:"quantity"`
 } //@name OrderItemDto
 
 type OrderDto struct {
