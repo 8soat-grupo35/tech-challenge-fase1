@@ -30,7 +30,7 @@ func (o orderPaymentUseCase) GetPayment(orderID uint32) (*entities.OrderPayment,
 }
 
 func (o orderPaymentUseCase) Create(order entities.Order) (*entities.OrderPayment, error) {
-	newOrderPayment, err := entities.NewOrderPayment(order.ID, 1)
+	newOrderPayment, err := entities.NewOrderPayment(order.ID, entities.PAYMENT_STATUS_WAITING)
 
 	if err != nil {
 		return nil, &custom_errors.BadRequestError{

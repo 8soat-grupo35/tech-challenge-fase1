@@ -86,6 +86,6 @@ INSERT INTO items (name, category, price, image_url, created_at, updated_at, del
 
 INSERT INTO customers (name, email, cpf, created_at, updated_at, deleted_at) VALUES ('John Doe', 'john@gmail.com', '12345678911', 'NOW'::timestamptz, 'NOW'::timestamptz, null);
 
-INSERT INTO payment_statuses (name) VALUES ('WAITING');
-INSERT INTO payment_statuses (name) VALUES ('RECUSED');
-INSERT INTO payment_statuses (name) VALUES ('APPROVED');
+INSERT INTO payment_statuses (name) VALUES ('AGUARDANDO');
+INSERT INTO payment_statuses (name) VALUES ('RECUSADO');
+INSERT INTO payment_statuses (name) VALUES ('APROVADO');

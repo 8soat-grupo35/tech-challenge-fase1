@@ -41,6 +41,12 @@ func (orderPayment OrderPayment) Validate() error {
 	)
 }
 
+const (
+	PAYMENT_STATUS_WAITING  = 1
+	PAYMENT_STATUS_RECUSED  = 2
+	PAYMENT_STATUS_APPROVED = 3
+)
+
 type PaymentStatus struct {
 	ID   uint32 `gorm:"primary_key;auto_increment"`
 	Name string `gorm:"size:255;not null"`
