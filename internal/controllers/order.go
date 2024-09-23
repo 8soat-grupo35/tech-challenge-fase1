@@ -30,7 +30,7 @@ func (o *OrderController) GetAll() ([]entities.Order, error) {
 	return o.orderUseCase.GetAll()
 }
 
-func (o *OrderController) Checkout(orderDto dto.OrderDto) (*entities.Order, error) {
+func (o *OrderController) Checkout(orderDto dto.OrderDto) (*presenters.OrderPresenter, error) {
 	order, err := o.orderUseCase.Create(orderDto)
 
 	if err != nil {
@@ -43,7 +43,7 @@ func (o *OrderController) Checkout(orderDto dto.OrderDto) (*entities.Order, erro
 		return nil, err
 	}
 
-	return order, nil
+	return &presenters.OrderPresenter{Id: order.ID}, nil
 }
 
 func (o *OrderController) GetPaymentStatus(orderID uint32) (*presenters.OrderPaymentStatusPresenter, error) {
