@@ -296,6 +296,42 @@
                     }
                 }
             }
+        },
+        "/v1/orders/{orderID}/payment/status": {
+            "get": {
+                "description": "Get Order Payment Status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get Order Payment Status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do pedido",
+                        "name": "orderID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/presenters.OrderPaymentStatusPresenter"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {}
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -456,6 +492,14 @@
                 "valid": {
                     "description": "Valid is true if Time is not NULL",
                     "type": "boolean"
+                }
+            }
+        },
+        "presenters.OrderPaymentStatusPresenter": {
+            "type": "object",
+            "properties": {
+                "payment_status": {
+                    "type": "string"
                 }
             }
         }

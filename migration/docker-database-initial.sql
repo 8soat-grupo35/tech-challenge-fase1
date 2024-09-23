@@ -32,7 +32,15 @@ CREATE TABLE IF NOT EXISTS orders(
       ON DELETE SET NULL
 );
 
-CREATE TABLE IF NOT EXISTS orders_payment(
+CREATE TABLE IF NOT EXISTS payment_statuses(
+     id serial primary key,
+     name varchar(100) NOT NULL,
+     created_at timestamptz NULL,
+     updated_at timestamptz NULL,
+     deleted_at timestamptz NULL
+);
+
+CREATE TABLE IF NOT EXISTS order_payments(
     id serial primary key,
     order_id int NOT NULL,
     payment_status_id int NOT NULL,
@@ -40,23 +48,17 @@ CREATE TABLE IF NOT EXISTS orders_payment(
     updated_at timestamptz NULL,
     deleted_at timestamptz NULL,
 
-    CONSTRAINT fk_order_payment
+    CONSTRAINT fk_order_payments
         FOREIGN KEY(order_id)
         REFERENCES orders(id)
         ON DELETE SET NULL,
-    CONSTRAINT fk_order_payment_status
+    CONSTRAINT fk_order_payments_statuses
         FOREIGN KEY(payment_status_id)
-        REFERENCES payment_status(id)
+        REFERENCES payment_statuses(id)
         ON DELETE SET NULL
 );
 
-CREATE TABLE IF NOT EXISTS payment_status(
-    id serial primary key,
-    name int NOT NULL
-    created_at timestamptz NULL,
-    updated_at timestamptz NULL,
-    deleted_at timestamptz NULL,
-)
+
 
 CREATE TABLE IF NOT EXISTS order_items(
     id serial primary key,
@@ -84,6 +86,6 @@ INSERT INTO items (name, category, price, image_url, created_at, updated_at, del
 
 INSERT INTO customers (name, email, cpf, created_at, updated_at, deleted_at) VALUES ('John Doe', 'john@gmail.com', '12345678911', 'NOW'::timestamptz, 'NOW'::timestamptz, null);
 
-INSERT INTO payment_status (name) VALUES ("WAITING");
-INSERT INTO payment_status (name) VALUES ("RECUSED");
-INSERT INTO payment_status (name) VALUES ("APPROVED");
+INSERT INTO payment_statuses (name) VALUES ('AGUARDANDO');
+INSERT INTO payment_statuses (name) VALUES ('RECUSADO');
+INSERT INTO payment_statuses (name) VALUES ('APROVADO');

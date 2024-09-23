@@ -103,6 +103,11 @@ definitions:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
+  presenters.OrderPaymentStatusPresenter:
+    properties:
+      payment_status:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -272,6 +277,30 @@ paths:
           description: Internal Server Error
           schema: {}
       summary: List Orders
+      tags:
+      - Orders
+  /v1/orders/{orderID}/payment/status:
+    get:
+      consumes:
+      - application/json
+      description: Get Order Payment Status
+      parameters:
+      - description: ID do pedido
+        in: path
+        name: orderID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenters.OrderPaymentStatusPresenter'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Get Order Payment Status
       tags:
       - Orders
   /v1/orders/checkout:

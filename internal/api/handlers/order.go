@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
+	custom_errors "github.com/8soat-grupo35/tech-challenge-fase1/internal/api/errors"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/controllers"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 )
 
 type OrderHandler struct {
@@ -61,4 +63,33 @@ func (h *OrderHandler) Checkout(echo echo.Context) error {
 	}
 
 	return echo.JSON(http.StatusOK, order)
+}
+
+// GetOrderPaymentStatus godoc
+// @Summary      Get Order Payment Status
+// @Description  Get Order Payment Status
+// @Tags         Orders
+// @Accept       json
+// @Produce      json
+// @Param		 orderID             path int         true "ID do pedido"
+// @Router       /v1/orders/{orderID}/payment/status [get]
+// @success 200 {object} presenters.OrderPaymentStatusPresenter
+// @Failure 500 {object} error
+func (h *OrderHandler) GetOrderPaymentStatus(echo echo.Context) error {
+	paramOrderID := echo.Param("orderID")
+	orderID, err := strconv.Atoi(paramOrderID)
+
+	if err != nil {
+		return echo.JSON(http.StatusBadRequest, &custom_errors.BadRequestError{
+			Message: "Order ID was not integer",
+		})
+	}
+
+	presenter, err := h.orderController.GetPaymentStatus(uint32(orderID))
+
+	if err != nil {
+		return echo.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return echo.JSON(http.StatusOK, presenter)
 }

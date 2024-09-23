@@ -2,33 +2,59 @@ package controllers
 
 import (
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
+	custom_errors "github.com/8soat-grupo35/tech-challenge-fase1/internal/api/errors"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/gateways"
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/repository"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/usecase"
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/presenters"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/usecases"
 	"gorm.io/gorm"
 )
 
 type OrderController struct {
-	dbConnection *gorm.DB
-	gateway      repository.OrderRepository
-	useCase      usecase.OrderUseCase
+	orderUseCase        usecase.OrderUseCase
+	orderPaymentUseCase usecase.OrderPaymentUseCase
 }
 
 func NewOrderController(db *gorm.DB) *OrderController {
-	gateway := gateways.NewOrderGateway(db)
+	orderGateway := gateways.NewOrderGateway(db)
+	orderPaymentGateway := gateways.NewOrderPaymentGateway(db)
 	return &OrderController{
-		dbConnection: db,
-		gateway:      gateway,
-		useCase:      usecases.NewOrderUseCase(gateway),
+		orderUseCase:        usecases.NewOrderUseCase(orderGateway),
+		orderPaymentUseCase: usecases.NewOrderPaymentUseCase(orderPaymentGateway),
 	}
 }
 
 func (o *OrderController) GetAll() ([]entities.Order, error) {
-	return o.useCase.GetAll()
+
+	return o.orderUseCase.GetAll()
 }
 
 func (o *OrderController) Checkout(orderDto dto.OrderDto) (*entities.Order, error) {
-	return o.useCase.Create(orderDto)
+	order, err := o.orderUseCase.Create(orderDto)
+
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = o.orderPaymentUseCase.Create(*order)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return order, nil
+}
+
+func (o *OrderController) GetPaymentStatus(orderID uint32) (*presenters.OrderPaymentStatusPresenter, error) {
+	orderPayment, err := o.orderPaymentUseCase.GetPayment(orderID)
+	if err != nil {
+		return nil, &custom_errors.NotFoundError{
+			Message: err.Error(),
+		}
+	}
+
+	return &presenters.OrderPaymentStatusPresenter{
+		PaymentStatus: orderPayment.PaymentStatus.Name,
+	}, nil
 }
