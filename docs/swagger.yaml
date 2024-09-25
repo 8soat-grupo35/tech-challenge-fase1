@@ -108,6 +108,11 @@ definitions:
       payment_status:
         type: string
     type: object
+  presenters.OrderPresenter:
+    properties:
+      id:
+        type: integer
+    type: object
 info:
   contact: {}
 paths:
@@ -322,7 +327,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/domain.Order'
+              $ref: '#/definitions/presenters.OrderPresenter'
             type: array
         "500":
           description: Internal Server Error

@@ -1,13 +1,14 @@
 package handlers
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
 	custom_errors "github.com/8soat-grupo35/tech-challenge-fase1/internal/api/errors"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/controllers"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
-	"net/http"
-	"strconv"
 )
 
 type OrderHandler struct {
@@ -47,7 +48,7 @@ func (h *OrderHandler) GetAll(echo echo.Context) error {
 // @Produce      json
 // @Param        Order	body dto.OrderDto true "Order to create"
 // @Router       /v1/orders/checkout [post]
-// @success 200 {array} domain.Order
+// @success 200 {array} presenters.OrderPresenter
 // @Failure 500 {object} error
 func (h *OrderHandler) Checkout(echo echo.Context) error {
 	orderDto := dto.OrderDto{}

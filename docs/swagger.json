@@ -286,7 +286,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Order"
+                                "$ref": "#/definitions/presenters.OrderPresenter"
                             }
                         }
                     },
@@ -500,6 +500,14 @@
             "properties": {
                 "payment_status": {
                     "type": "string"
+                }
+            }
+        },
+        "presenters.OrderPresenter": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
                 }
             }
         }

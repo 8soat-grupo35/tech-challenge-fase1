@@ -297,7 +297,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Order"
+                                "$ref": "#/definitions/presenters.OrderPresenter"
                             }
                         }
                     },
@@ -511,6 +511,14 @@ const docTemplate = `{
             "properties": {
                 "payment_status": {
                     "type": "string"
+                }
+            }
+        },
+        "presenters.OrderPresenter": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
                 }
             }
         }
