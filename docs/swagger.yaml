@@ -29,6 +29,8 @@ definitions:
         items:
           $ref: '#/definitions/OrderItemDto'
         type: array
+      status:
+        type: string
     type: object
   OrderItemDto:
     properties:
@@ -36,6 +38,11 @@ definitions:
         type: integer
       quantity:
         type: integer
+    type: object
+  OrderStatusDto:
+    properties:
+      status:
+        type: string
     type: object
   domain.Customer:
     properties:
@@ -85,6 +92,8 @@ definitions:
         items:
           $ref: '#/definitions/domain.OrderItem'
         type: array
+      status:
+        type: string
       updated_at:
         type: string
     type: object
@@ -282,6 +291,36 @@ paths:
           description: Internal Server Error
           schema: {}
       summary: List Orders
+      tags:
+      - Orders
+  /v1/orders/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Update Order Status
+      parameters:
+      - description: ID do item
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Status to update Order
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/OrderStatusDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Order'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Update Order Status
       tags:
       - Orders
   /v1/orders/{orderID}/payment/status:
