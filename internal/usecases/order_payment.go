@@ -6,6 +6,7 @@ import (
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/repository"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/usecase"
+	"log"
 )
 
 type orderPaymentUseCase struct {
@@ -59,22 +60,25 @@ func (o orderPaymentUseCase) UpdateStatus(orderID uint32, status string) (orderP
 	orderPayment, err = o.orderPaymentRepository.GetOneByOrderID(orderID)
 
 	if err != nil {
+		log.Println(err.Error())
 		return nil, &custom_errors.DatabaseError{
-			Message: err.Error(),
+			Message: "get order payment has failed",
 		}
 	}
 
 	paymentStatus, err := o.orderPaymentStatusRepository.GetByName(status)
 	fmt.Println(paymentStatus)
 	if err != nil {
+		log.Println(err.Error())
 		return nil, &custom_errors.DatabaseError{
-			Message: err.Error(),
+			Message: "get order payment status has failed",
 		}
 	}
 
 	err = orderPayment.SetPaymentStatus(paymentStatus.ID)
 
 	if err != nil {
+		log.Println(err.Error())
 		return nil, &custom_errors.BadRequestError{
 			Message: err.Error(),
 		}
@@ -83,8 +87,9 @@ func (o orderPaymentUseCase) UpdateStatus(orderID uint32, status string) (orderP
 	orderPaymentUpdated, err := o.orderPaymentRepository.Update(orderID, orderPayment)
 
 	if err != nil {
+		log.Println(err.Error())
 		return nil, &custom_errors.DatabaseError{
-			Message: err.Error(),
+			Message: "update order payment has failed",
 		}
 	}
 
