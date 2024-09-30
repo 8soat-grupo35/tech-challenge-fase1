@@ -8,12 +8,17 @@ import (
 )
 
 type orderPaymentUseCase struct {
-	orderPaymentRepository repository.OrderPaymentRepository
+	orderPaymentRepository       repository.OrderPaymentRepository
+	orderPaymentStatusRepository repository.OrderPaymentStatusRepository
 }
 
-func NewOrderPaymentUseCase(orderPaymentRepository repository.OrderPaymentRepository) usecase.OrderPaymentUseCase {
+func NewOrderPaymentUseCase(
+	orderPaymentRepository repository.OrderPaymentRepository,
+	orderPaymentStatusRepository repository.OrderPaymentStatusRepository,
+) usecase.OrderPaymentUseCase {
 	return &orderPaymentUseCase{
-		orderPaymentRepository: orderPaymentRepository,
+		orderPaymentRepository:       orderPaymentRepository,
+		orderPaymentStatusRepository: orderPaymentStatusRepository,
 	}
 }
 
@@ -47,4 +52,40 @@ func (o orderPaymentUseCase) Create(order entities.Order) (*entities.OrderPaymen
 	}
 
 	return orderPaymentSaved, nil
+}
+
+func (o orderPaymentUseCase) UpdateStatus(orderID uint32, status string) (orderPayment *entities.OrderPayment, err error) {
+	orderPayment, err = o.orderPaymentRepository.GetOneByOrderID(orderID)
+
+	if err != nil {
+		return nil, &custom_errors.DatabaseError{
+			Message: err.Error(),
+		}
+	}
+
+	paymentStatus, err := o.orderPaymentStatusRepository.GetByName(status)
+
+	if err != nil {
+		return nil, &custom_errors.DatabaseError{
+			Message: err.Error(),
+		}
+	}
+
+	err = orderPayment.SetPaymentStatus(paymentStatus.ID)
+
+	if err != nil {
+		return nil, &custom_errors.BadRequestError{
+			Message: err.Error(),
+		}
+	}
+
+	orderPaymentUpdated, err := o.orderPaymentRepository.Update(orderID, orderPayment)
+
+	if err != nil {
+		return nil, &custom_errors.DatabaseError{
+			Message: err.Error(),
+		}
+	}
+
+	return orderPaymentUpdated, nil
 }

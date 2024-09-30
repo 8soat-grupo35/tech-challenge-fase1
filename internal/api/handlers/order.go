@@ -94,3 +94,32 @@ func (h *OrderHandler) GetOrderPaymentStatus(echo echo.Context) error {
 
 	return echo.JSON(http.StatusOK, presenter)
 }
+
+func (h *OrderHandler) UpdateOrderPaymentStatus(echo echo.Context) error {
+	paramOrderID := echo.Param("orderID")
+	orderID, err := strconv.Atoi(paramOrderID)
+
+	if err != nil {
+		return echo.JSON(http.StatusBadRequest, &custom_errors.BadRequestError{
+			Message: "Order ID was not integer",
+		})
+	}
+
+	body := dto.OrderPaymentStatusDto{}
+
+	err = echo.Bind(&body)
+
+	if err != nil {
+		return echo.JSON(http.StatusBadRequest, &custom_errors.BadRequestError{
+			Message: "Body could not be parsed",
+		})
+	}
+
+	err = h.orderController.UpdatePaymentStatus(uint32(orderID), body.Status)
+
+	if err != nil {
+		return echo.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return echo.JSON(http.StatusOK, nil)
+}

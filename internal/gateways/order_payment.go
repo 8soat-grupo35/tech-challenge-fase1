@@ -26,6 +26,22 @@ func (o orderPaymentGateway) Create(orderPayment entities.OrderPayment) (*entiti
 	return &orderPayment, nil
 }
 
+func (o orderPaymentGateway) Update(orderId uint32, orderPayment *entities.OrderPayment) (*entities.OrderPayment, error) {
+
+	orderPaymentToUpdate := entities.OrderPayment{
+		PaymentStatusID: orderPayment.PaymentStatusID,
+	}
+
+	result := o.orm.Where(entities.OrderPayment{OrderID: orderId}).Updates(&orderPaymentToUpdate)
+
+	if result.Error != nil {
+		log.Println(result.Error)
+		return nil, result.Error
+	}
+
+	return &orderPaymentToUpdate, nil
+}
+
 func (o orderPaymentGateway) GetOneByOrderID(orderID uint32) (orderPayment *entities.OrderPayment, err error) {
 	result := o.orm.Preload("PaymentStatus").Where(entities.OrderPayment{OrderID: orderID}).First(&orderPayment)
 
