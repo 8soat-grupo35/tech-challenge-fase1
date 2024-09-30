@@ -12,4 +12,4 @@ type OrderDto struct {
 
 type OrderPaymentStatusDto struct {
 	Status string `json:"status"`
-}
+} //@name OrderPaymentStatusDto

@@ -37,6 +37,11 @@ definitions:
       quantity:
         type: integer
     type: object
+  OrderPaymentStatusDto:
+    properties:
+      status:
+        type: string
+    type: object
   domain.Customer:
     properties:
       cpf:
@@ -306,6 +311,35 @@ paths:
           description: Internal Server Error
           schema: {}
       summary: Get Order Payment Status
+      tags:
+      - Orders
+    put:
+      consumes:
+      - application/json
+      description: Update Order Payment Status
+      parameters:
+      - description: ID do pedido
+        in: path
+        name: orderID
+        required: true
+        type: integer
+      - description: UpdateBody
+        in: body
+        name: UpdateBody
+        required: true
+        schema:
+          $ref: '#/definitions/OrderPaymentStatusDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Update Order Payment Status
       tags:
       - Orders
   /v1/orders/checkout:

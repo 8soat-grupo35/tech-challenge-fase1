@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"fmt"
 	custom_errors "github.com/8soat-grupo35/tech-challenge-fase1/internal/api/errors"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/repository"
@@ -64,7 +65,7 @@ func (o orderPaymentUseCase) UpdateStatus(orderID uint32, status string) (orderP
 	}
 
 	paymentStatus, err := o.orderPaymentStatusRepository.GetByName(status)
-
+	fmt.Println(paymentStatus)
 	if err != nil {
 		return nil, &custom_errors.DatabaseError{
 			Message: err.Error(),
