@@ -66,6 +66,42 @@ func (h *OrderHandler) Checkout(echo echo.Context) error {
 	return echo.JSON(http.StatusOK, order)
 }
 
+// Create godoc
+// @Summary      Update Order Status
+// @Description  Update Order Status
+// @Tags         Orders
+// @Accept       json
+// @Produce      json
+// @Param		 		 id     path int         true "ID do item"
+// @Param        Order	body dto.OrderStatusDto true "Status to update Order"
+// @Router       /v1/orders/{id} [patch]
+// @success 200 {object} domain.Order
+// @Failure 500 {object} error
+func (h *OrderHandler) UpdateStatus(echo echo.Context) error {
+	orderDto := dto.OrderDto{}
+
+	id, err := strconv.Atoi(echo.Param("id"))
+	if err != nil {
+		return echo.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	bindError := echo.Bind(&orderDto)
+	if bindError != nil {
+		return echo.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	order, err := h.orderController.UpdateStatus(uint32(id), orderDto.Status)
+	if err != nil {
+		return echo.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	if order == nil {
+		return echo.JSON(http.StatusNoContent, err.Error())
+	}
+
+	return echo.JSON(http.StatusOK, order)
+}
+
 // GetOrderPaymentStatus godoc
 // @Summary      Get Order Payment Status
 // @Description  Get Order Payment Status

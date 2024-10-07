@@ -2,6 +2,7 @@ package usecases
 
 import (
 	"errors"
+
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
 	custom_errors "github.com/8soat-grupo35/tech-challenge-fase1/internal/api/errors"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
@@ -45,6 +46,28 @@ func (service *orderService) Create(order dto.OrderDto) (*entities.Order, error)
 
 	if err != nil {
 		return nil, errors.New("create order on repository has failed")
+	}
+
+	return orderSaved, err
+}
+
+func (service *orderService) UpdateStatus(id uint32, status string) (*entities.Order, error) {
+	order, err := service.orderRepository.GetById(id)
+	if err != nil {
+		return nil, &custom_errors.BadRequestError{
+			Message: err.Error(),
+		}
+	}
+
+	order.Status = status
+	validateError := order.Validate()
+	if validateError != nil {
+		return nil, errors.New(validateError.Error())
+	}
+
+	orderSaved, err := service.orderRepository.Update(id, *order)
+	if err != nil {
+		return nil, errors.New("update order on  repository has failed")
 	}
 
 	return orderSaved, err

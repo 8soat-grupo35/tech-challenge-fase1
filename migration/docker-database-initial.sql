@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS items(
 
 CREATE TABLE IF NOT EXISTS orders(
     id serial primary key,
+    status varchar(50) NOT NULL,
     customer_id int NOT NULL,
     created_at timestamptz NULL,
 	updated_at timestamptz NULL,
@@ -57,8 +58,6 @@ CREATE TABLE IF NOT EXISTS order_payments(
         REFERENCES payment_statuses(id)
         ON DELETE SET NULL
 );
-
-
 
 CREATE TABLE IF NOT EXISTS order_items(
     id serial primary key,

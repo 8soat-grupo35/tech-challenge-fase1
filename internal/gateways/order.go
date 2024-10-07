@@ -1,9 +1,11 @@
 package gateways
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/repository"
-	"log"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -18,7 +20,19 @@ func NewOrderGateway(orm *gorm.DB) repository.OrderRepository {
 }
 
 func (c *orderGateway) GetAll() (orders []entities.Order, err error) {
-	result := c.orm.Preload(clause.Associations).Preload("Items.Item").Order(clause.OrderByColumn{Column: clause.Column{Name: "created_at"}}).Find(&orders)
+	expressionOrderBy := fmt.Sprintf(
+		"CASE status WHEN '%s' THEN 1 WHEN '%s' THEN 2 WHEN '%s' THEN 3 ELSE 4 END",
+		entities.DONE_STATUS,
+		entities.IN_PREPARATION_STATUS,
+		entities.RECEIVED_STATUS,
+	)
+
+	result := c.orm.Preload(clause.Associations).
+		Preload("Items.Item").
+		Where("status != ?", entities.FINISHED_STATUS).
+		Order(expressionOrderBy).
+		Order("created_at ASC").
+		Find(&orders)
 
 	if result.Error != nil {
 		log.Println(result.Error)
@@ -28,8 +42,31 @@ func (c *orderGateway) GetAll() (orders []entities.Order, err error) {
 	return orders, err
 }
 
+func (c *orderGateway) GetById(id uint32) (*entities.Order, error) {
+	order := entities.Order{
+		ID: id,
+	}
+	result := c.orm.Preload(clause.Associations).Preload("Items.Item").First(&order)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &order, nil
+}
+
 func (c *orderGateway) Create(order entities.Order) (*entities.Order, error) {
 	result := c.orm.Create(&order)
+
+	if result.Error != nil {
+		log.Println(result.Error)
+		return nil, result.Error
+	}
+
+	return &order, nil
+}
+
+func (c *orderGateway) Update(id uint32, order entities.Order) (*entities.Order, error) {
+	result := c.orm.Session(&gorm.Session{FullSaveAssociations: false}).Updates(&order)
 
 	if result.Error != nil {
 		log.Println(result.Error)
