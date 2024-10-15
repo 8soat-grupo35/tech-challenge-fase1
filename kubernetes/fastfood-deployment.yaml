@@ -35,4 +35,11 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 10
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
       restartPolicy: Always
