@@ -19,9 +19,13 @@ type OrderController struct {
 func NewOrderController(db *gorm.DB) *OrderController {
 	orderGateway := gateways.NewOrderGateway(db)
 	orderPaymentGateway := gateways.NewOrderPaymentGateway(db)
+	orderPaymentStatusGateway := gateways.NewOrderPaymentStatusGateway(db)
 	return &OrderController{
-		orderUseCase:        usecases.NewOrderUseCase(orderGateway),
-		orderPaymentUseCase: usecases.NewOrderPaymentUseCase(orderPaymentGateway),
+		orderUseCase: usecases.NewOrderUseCase(orderGateway),
+		orderPaymentUseCase: usecases.NewOrderPaymentUseCase(
+			orderPaymentGateway,
+			orderPaymentStatusGateway,
+		),
 	}
 }
 
@@ -67,4 +71,10 @@ func (o *OrderController) GetPaymentStatus(orderID uint32) (*presenters.OrderPay
 	return &presenters.OrderPaymentStatusPresenter{
 		PaymentStatus: orderPayment.PaymentStatus.Name,
 	}, nil
+}
+
+func (o *OrderController) UpdatePaymentStatus(orderID uint32, status string) error {
+	_, err := o.orderPaymentUseCase.UpdateStatus(orderID, status)
+
+	return err
 }

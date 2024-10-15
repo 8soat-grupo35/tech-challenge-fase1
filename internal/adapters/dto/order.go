@@ -14,3 +14,7 @@ type OrderDto struct {
 type OrderStatusDto struct {
 	Status string `json:"status"`
 } //@name OrderStatusDto
+
+type OrderPaymentStatusDto struct {
+	Status string `json:"status"`
+} //@name OrderPaymentStatusDto

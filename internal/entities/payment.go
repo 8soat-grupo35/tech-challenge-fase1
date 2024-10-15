@@ -26,6 +26,14 @@ func NewOrderPayment(orderID uint32, paymentStatusID uint32) (*OrderPayment, err
 	return orderPayment, nil
 }
 
+func (orderPayment *OrderPayment) SetPaymentStatus(statusID uint32) error {
+	orderPayment.PaymentStatusID = statusID
+
+	err := orderPayment.Validate()
+
+	return err
+}
+
 func (orderPayment OrderPayment) Validate() error {
 	return validation.ValidateStruct(
 		&orderPayment,

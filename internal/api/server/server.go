@@ -56,6 +56,7 @@ func newApp(cfg external.Config) *echo.Echo {
 	orderV1Group := app.Group("/v1/orders")
 	orderV1Group.GET("", orderHandler.GetAll)
 	orderV1Group.GET("/:orderID/payment/status", orderHandler.GetOrderPaymentStatus)
+	orderV1Group.PUT("/:orderID/payment/status", orderHandler.UpdateOrderPaymentStatus)
 	orderV1Group.POST("/checkout", orderHandler.Checkout)
 	orderV1Group.PATCH("/:id", orderHandler.UpdateStatus)
 

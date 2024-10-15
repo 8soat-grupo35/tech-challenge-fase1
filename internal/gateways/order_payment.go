@@ -1,6 +1,7 @@
 package gateways
 
 import (
+	"fmt"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/entities"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/interfaces/repository"
 	"gorm.io/gorm"
@@ -24,6 +25,22 @@ func (o orderPaymentGateway) Create(orderPayment entities.OrderPayment) (*entiti
 	}
 
 	return &orderPayment, nil
+}
+
+func (o orderPaymentGateway) Update(orderId uint32, orderPayment *entities.OrderPayment) (*entities.OrderPayment, error) {
+
+	orderPaymentToUpdate := entities.OrderPayment{
+		PaymentStatusID: orderPayment.PaymentStatusID,
+	}
+
+	result := o.orm.Where(entities.OrderPayment{OrderID: orderId}).Updates(&orderPaymentToUpdate)
+	fmt.Println(orderPaymentToUpdate)
+	if result.Error != nil {
+		log.Println(result.Error)
+		return nil, result.Error
+	}
+
+	return &orderPaymentToUpdate, nil
 }
 
 func (o orderPaymentGateway) GetOneByOrderID(orderID uint32) (orderPayment *entities.OrderPayment, err error) {
