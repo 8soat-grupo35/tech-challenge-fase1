@@ -35,6 +35,16 @@ spec:
             - mountPath: /docker-entrypoint-initdb.d/docker-database-initial.sql
               name: postgres-dbinit
               subPath: docker-database-initial.sql
+          readinessProbe:
+            exec:
+              command: [ "psql", "-w", "-U", "root", "-d", "root", "-c", "SELECT 1" ]
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          livenessProbe:
+            exec:
+              command: [ "psql", "-w", "-U", "root", "-d", "root", "-c", "SELECT 1" ]
+            initialDelaySeconds: 45
+            timeoutSeconds: 2
       volumes:
         - name: postgresdata
           persistentVolumeClaim:
@@ -45,3 +55,4 @@ spec:
                 path: docker-database-initial.sql
             name: postgres-dbinit
           name: postgres-dbinit
+      restartPolicy: Always
