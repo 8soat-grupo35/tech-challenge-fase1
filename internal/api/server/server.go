@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+
 	_ "github.com/8soat-grupo35/tech-challenge-fase1/docs"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/api/handlers"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/external"
@@ -57,6 +58,7 @@ func newApp(cfg external.Config) *echo.Echo {
 	orderV1Group.GET("/:orderID/payment/status", orderHandler.GetOrderPaymentStatus)
 	orderV1Group.PUT("/:orderID/payment/status", orderHandler.UpdateOrderPaymentStatus)
 	orderV1Group.POST("/checkout", orderHandler.Checkout)
+	orderV1Group.PATCH("/:id", orderHandler.UpdateStatus)
 
 	return app
 }

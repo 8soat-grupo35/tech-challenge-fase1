@@ -50,6 +50,16 @@ func (o *OrderController) Checkout(orderDto dto.OrderDto) (*presenters.OrderPres
 	return &presenters.OrderPresenter{Id: order.ID}, nil
 }
 
+func (o *OrderController) UpdateStatus(id uint32, status string) (*entities.Order, error) {
+	order, err := o.orderUseCase.UpdateStatus(id, status)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return order, nil
+}
+
 func (o *OrderController) GetPaymentStatus(orderID uint32) (*presenters.OrderPaymentStatusPresenter, error) {
 	orderPayment, err := o.orderPaymentUseCase.GetPayment(orderID)
 	if err != nil {

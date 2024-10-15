@@ -308,6 +308,51 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/orders/{id}": {
+            "patch": {
+                "description": "Update Order Status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update Order Status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do item",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Status to update Order",
+                        "name": "Order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrderStatusDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Order"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/v1/orders/{orderID}/payment/status": {
             "get": {
                 "description": "Get Order Payment Status",
@@ -434,6 +479,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/OrderItemDto"
                     }
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },
@@ -528,6 +576,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/domain.OrderItem"
                     }
+                },
+                "status": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"

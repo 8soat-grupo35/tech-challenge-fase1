@@ -1,10 +1,18 @@
 package entities
 
 import (
-	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
 	"time"
 
+	"github.com/8soat-grupo35/tech-challenge-fase1/internal/adapters/dto"
+
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+)
+
+const (
+	RECEIVED_STATUS       = "RECEBIDO"
+	IN_PREPARATION_STATUS = "EM_PREPARACAO"
+	DONE_STATUS           = "PRONTO"
+	FINISHED_STATUS       = "FINALIZADO"
 )
 
 type OrderItem struct {
@@ -19,15 +27,16 @@ type Order struct {
 	ID         uint32      `gorm:"primarykey;autoIncrement" json:"id"`
 	Items      []OrderItem `gorm:"foreignKey:OrderID;references:ID;constraint:OnDelete:CASCADE" json:"items"`
 	CustomerID uint32      `json:"customer_id"`
-
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	Status     string      `json:"status"`
+	CreatedAt  time.Time   `json:"created_at"`
+	UpdatedAt  time.Time   `json:"updated_at"`
 } //@name domain.Order
 
 func NewOrder(orderDto dto.OrderDto) (*Order, error) {
 	newOrder := Order{
 		CustomerID: orderDto.CustomerID,
 		Items:      OrderItemToDomain(orderDto),
+		Status:     RECEIVED_STATUS,
 	}
 
 	err := newOrder.Validate()
@@ -62,6 +71,11 @@ func (order Order) Validate() error {
 		validation.Field(
 			&order.CustomerID,
 			validation.Required,
+		),
+		validation.Field(
+			&order.Status,
+			validation.Required,
+			validation.In(DONE_STATUS, IN_PREPARATION_STATUS, RECEIVED_STATUS, FINISHED_STATUS),
 		),
 	)
 }

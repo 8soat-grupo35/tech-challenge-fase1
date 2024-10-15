@@ -8,7 +8,12 @@ type OrderItemDto struct {
 type OrderDto struct {
 	Items      []OrderItemDto `json:"items"`
 	CustomerID uint32         `json:"customer_id"`
+	Status     string         `json:"status"`
 } //@name OrderDto
+
+type OrderStatusDto struct {
+	Status string `json:"status"`
+} //@name OrderStatusDto
 
 type OrderPaymentStatusDto struct {
 	Status string `json:"status"`
