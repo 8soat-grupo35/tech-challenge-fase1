@@ -504,6 +504,14 @@ const docTemplate = `{
                 }
             }
         },
+        "OrderStatusDto": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.Customer": {
             "type": "object",
             "properties": {

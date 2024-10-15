@@ -39,12 +39,12 @@ definitions:
       quantity:
         type: integer
     type: object
-  OrderStatusDto:
+  OrderPaymentStatusDto:
     properties:
       status:
         type: string
     type: object
-  OrderPaymentStatusDto:
+  OrderStatusDto:
     properties:
       status:
         type: string
