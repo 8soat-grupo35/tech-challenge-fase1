@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	_ "github.com/8soat-grupo35/tech-challenge-fase1/docs"
 	"github.com/8soat-grupo35/tech-challenge-fase1/internal/api/handlers"
@@ -36,6 +37,9 @@ func newApp(cfg external.Config) *echo.Echo {
 
 	app := echo.New()
 	app.GET("/swagger/*", echoSwagger.WrapHandler)
+	app.GET("/", func(echo echo.Context) error {
+		return echo.JSON(http.StatusOK, "Alive")
+	})
 
 	customerHandler := handlers.NewCustomerHandler(external.DB)
 	customerGroupV1 := app.Group("/v1/customer")
