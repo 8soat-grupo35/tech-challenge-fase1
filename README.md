@@ -4,7 +4,11 @@
 
 - [Sobre](#sobre)
 - [DDD - Event Storming](#ddd---event-storming)
-- [Como rodar a aplicação](#como-rodar-a-aplicação)
+- [Gerenciamento das tarefas](#gerenciamento-das-tarefas)
+- [Arquitetura](#arquitetura)
+- [Como rodar a aplicação - Kubernetes](#como-rodar-a-aplicação-com-kubernetes)
+- [Como rodar a aplicação - Docker](#como-rodar-a-aplicação-com-docker)
+- [Video demonstração](#video-de-demonstração)
 - [Contribuidores](#contribuidores)
 
 ## Sobre
@@ -16,7 +20,35 @@ Neste primeira fase desenvolvemos uma projeto para o curso de Pós Graduação e
 
 Disponibilizamos através deste [link](https://miro.com/app/board/uXjVK4xDf-w=/?share_link_id=428293472540) o Event Storming realizado pela equipe com todas etapas realizadas.
 
-## Como rodar a aplicação
+## Gerenciamento das tarefas
+
+Para gerenciar as tarefas entre os membros da equipe utilizamos o Trello, nosso board está disponivel atraves deste [link](https://trello.com/invite/b/66959632140d514b6a763d28/ATTI2cd6e07d6daf09d518c1bfc0f711919845B21452/pos-grupo35-techchallenge-fase1).
+
+
+## Arquitetura 
+
+![K8S](docs/assets/fastfood-k8s.drawio.png)
+
+
+## Como rodar a aplicação com Kubernetes
+
+Para rodar a aplicação com Kubernetes é necessário instalar as seguintes ferramentas:
+
+- Guia de instalação do [Docker](https://docs.docker.com/engine/install/)
+- Guia de instalação do [Minikube](https://minikube.sigs.k8s.io/docs/start/)
+- Guia de instalação do [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+
+Após instalação, inicie um cluster:
+- `minikube start`
+
+Com o cluster disponível, execute no diretório raíz:
+- `sh kubernetes/kubernetes_up.sh`
+
+Acesse o swagger:
+
+- `http://localhost:32100/swagger/index.html`
+
+## Como rodar a aplicação com Docker
 
 Para rodar a aplicação, deve-se executar o comando:
 
@@ -48,6 +80,14 @@ go generate ./...
 ```
 go test ./test/...
 ``` -->
+
+
+## Video de Demonstração
+
+Video demonstrando as funcionalidades solicitadas na Fase 2:
+
+https://youtu.be/t0N95YRmOIw
+
 
 ## Contribuidores
 
