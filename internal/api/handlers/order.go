@@ -130,3 +130,43 @@ func (h *OrderHandler) GetOrderPaymentStatus(echo echo.Context) error {
 
 	return echo.JSON(http.StatusOK, presenter)
 }
+
+// UpdateOrderPaymentStatus godoc
+// @Summary      Update Order Payment Status
+// @Description  Update Order Payment Status
+// @Tags         Orders
+// @Accept       json
+// @Produce      json
+// @Param		 orderID             path int         true "ID do pedido"
+// @Param        UpdateBody	body dto.OrderPaymentStatusDto true "UpdateBody"
+// @Router       /v1/orders/{orderID}/payment/status [put]
+// @success 200 {object} string
+// @Failure 500 {object} error
+func (h *OrderHandler) UpdateOrderPaymentStatus(echo echo.Context) error {
+	paramOrderID := echo.Param("orderID")
+	orderID, err := strconv.Atoi(paramOrderID)
+
+	if err != nil {
+		return echo.JSON(http.StatusBadRequest, &custom_errors.BadRequestError{
+			Message: "Order ID was not integer",
+		})
+	}
+
+	body := dto.OrderPaymentStatusDto{}
+
+	err = echo.Bind(&body)
+
+	if err != nil {
+		return echo.JSON(http.StatusBadRequest, &custom_errors.BadRequestError{
+			Message: "Body could not be parsed",
+		})
+	}
+
+	err = h.orderController.UpdatePaymentStatus(uint32(orderID), body.Status)
+
+	if err != nil {
+		return echo.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return echo.JSON(http.StatusOK, "Payment Status Updated!")
+}
