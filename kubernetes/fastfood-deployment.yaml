@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: fastfood-app
-          image: fastfood-app
+          image: fastfood-app:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8000

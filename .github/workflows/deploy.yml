@@ -1,0 +1,49 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - feature/kubernetes-configuration
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_SESSION_TOKEN:
+        required: true
+      AWS_REGION_DEFAULT:
+        required: true
+      AWS_ACCOUNT_ID:
+        required: true
+      CLUSTER_NAME:
+        required: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION_DEFAULT }}
+
+      - name: Build Docker image
+        run: docker build -t fastfood-app:latest .
+
+      - name: Load Docker image to Kubernetes
+        run: kind load docker-image fastfood-app:latest
+
+      - name: Deploy to EKS
+        run: |
+          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.AWS_REGION_DEFAULT }}
+          kubectl apply -f kubernetes/fastfood-deployment.yaml
+          kubectl apply -f kubernetes/fastfood-service.yaml
+          kubectl apply -f kubernetes/fastfood-hpa.yaml
+          kubectl set image deployment/fastfood-app fastfood-app=fastfood-app:latest
