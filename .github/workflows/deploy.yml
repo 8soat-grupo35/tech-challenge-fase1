@@ -34,6 +34,10 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ secrets.AWS_REGION_DEFAULT }}
 
+      - name: Create ECR repository
+        run: |
+          aws ecr describe-repositories --repository-names fastfood-app || aws ecr create-repository --repository-name fastfood-app
+
       - name: Build Docker image
         run: docker build -t fastfood-app:latest .
 
