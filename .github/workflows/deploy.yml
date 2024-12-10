@@ -48,6 +48,8 @@ jobs:
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_DEFAULT }}.amazonaws.com/fastfood-app:latest
 
       - name: Deploy to EKS
+        env:
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         run: |
           aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.AWS_REGION_DEFAULT }}
           envsubst < kubernetes/fastfood-deployment.yaml | kubectl apply -f -
