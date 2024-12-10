@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: fastfood-app
-          image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/fastfood-app:latest
+          image: ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/fastfood-app:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
