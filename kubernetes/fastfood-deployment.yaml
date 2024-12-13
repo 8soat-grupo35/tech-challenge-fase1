@@ -20,18 +20,18 @@ spec:
           image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/fastfood-app:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 8000
           livenessProbe:
             httpGet:
               path: /
-              port: 80
+              port: 8000
               scheme: HTTP
             initialDelaySeconds: 45
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /
-              port: 80
+              port: 8000
               scheme: HTTP
             initialDelaySeconds: 40
             periodSeconds: 10
