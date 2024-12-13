@@ -60,7 +60,7 @@ func initConfig() (viper.Viper, error) {
 }
 
 func initDefaults(config *viper.Viper) {
-	config.SetDefault("server.host", "0.0.0.0:8000")
+	config.SetDefault("server.host", "0.0.0.0:80")
 	config.SetDefault("database.host", "postgres")
 	config.SetDefault("database.port", "5432")
 	config.SetDefault("database.user", "root")
