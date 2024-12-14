@@ -9,5 +9,6 @@ RUN go install github.com/swaggo/swag/cmd/swag@latest
 COPY go.mod go.sum ./
 RUN go mod download
 
+EXPOSE 8000
 
 CMD ["air", "-c", ".air.toml"]

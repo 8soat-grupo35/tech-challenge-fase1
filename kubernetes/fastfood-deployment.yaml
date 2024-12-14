@@ -26,14 +26,14 @@ spec:
               path: /
               port: 8000
               scheme: HTTP
-            initialDelaySeconds: 45
+            initialDelaySeconds: 60
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /
               port: 8000
               scheme: HTTP
-            initialDelaySeconds: 40
+            initialDelaySeconds: 60
             periodSeconds: 10
           resources:
             requests:
