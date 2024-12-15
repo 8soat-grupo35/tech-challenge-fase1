@@ -61,9 +61,9 @@ func initConfig() (viper.Viper, error) {
 
 func initDefaults(config *viper.Viper) {
 	config.SetDefault("server.host", "0.0.0.0:8000")
-	config.SetDefault("database.host", "postgres")
+	config.SetDefault("database.host", "postgres-db.caxg6jzrl9sq.us-east-1.rds.amazonaws.com")
 	config.SetDefault("database.port", "5432")
-	config.SetDefault("database.user", "root")
-	config.SetDefault("database.password", "root")
-	config.SetDefault("database.dbname", "root")
+	config.SetDefault("database.user", "postgres")
+	config.SetDefault("database.password", "postgres")
+	config.SetDefault("database.dbname", "fastfood")
 }
