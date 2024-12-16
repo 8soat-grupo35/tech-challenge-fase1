@@ -17,8 +17,11 @@ spec:
     spec:
       containers:
         - name: fastfood-app
-          image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/fastfood-app:latest
+          image: fastfood-app
           imagePullPolicy: IfNotPresent
+          envFrom:
+          - secretRef:
+              name: database-secret
           ports:
             - containerPort: 8000
           livenessProbe:
