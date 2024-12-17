@@ -30,6 +30,11 @@ Para gerenciar as tarefas entre os membros da equipe utilizamos o Trello, nosso 
 ![K8S](docs/assets/fastfood-k8s.drawio.png)
 
 
+## Justificativa de escolha do Banco de dados
+
+Definimos o uso do Banco de Dados Postgres no Amazon RDS, por trabalhar com modelo relacional, no qual entendemos ser a melhor abordagem para o nossa demanda, já que temos uma estrutura de dados bem organizada, facilidade de consultas com SQL e como lidamos com pagamentos, nos oferece mecanismos de integridade e controle de transações. Outro ponto importante na escolha é sua comunidade ativa, já que é um projeto *Open Source* e continua evoluindo conforme novidades vão surgindo e por este motivo também se encaixa perfeitamente em nosso orçamento, especialmente no tier gratuito do Amazon RDS.
+
+
 ## Como rodar a aplicação com Kubernetes
 
 Para rodar a aplicação com Kubernetes é necessário instalar as seguintes ferramentas:
@@ -84,13 +89,13 @@ go test ./test/...
 
 ## Video de Demonstração
 
-Video demonstrando as funcionalidades solicitadas na Fase 2:
-
-https://youtu.be/t0N95YRmOIw
+- Video demonstrando as funcionalidades solicitadas na Fase 2: https://youtu.be/t0N95YRmOIw
+- Video demonstrando as funcionalidades solicitadas na Fase 3: https://youtu.be/t0N95YRmOIw
 
 
 ## Contribuidores
 
 - Egio Lima
 - Gabriel Rosa Nunes
+- Irlan Gomes
 - Jhony Eduardo Senem
