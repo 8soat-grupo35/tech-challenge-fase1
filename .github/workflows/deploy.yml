@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - feature/kubernetes-configuration
+      - main
   workflow_call:
     secrets:
       AWS_ACCESS_KEY_ID:
