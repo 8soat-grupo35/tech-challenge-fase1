@@ -90,7 +90,7 @@ func (h *CustomerHandler) Delete(echo echo.Context) error {
 	err = h.customerController.Delete(id)
 
 	if err != nil {
-		return echo.JSON(http.StatusInternalServerError, err.Error())
+		return echo.JSON(http.StatusNotFound, err.Error())
 	}
 
 	return echo.JSON(http.StatusOK, "customer deleted successfully")
@@ -113,7 +113,7 @@ func (h CustomerHandler) GetByCpf(echo echo.Context) error {
 	customer, err := h.customerController.GetByCPF(cpf)
 
 	if err != nil {
-		return echo.JSON(http.StatusInternalServerError, err.Error())
+		return echo.JSON(http.StatusNotFound, err.Error())
 	}
 
 	return echo.JSON(http.StatusOK, customer)
