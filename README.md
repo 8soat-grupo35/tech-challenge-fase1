@@ -90,7 +90,7 @@ go test ./test/...
 ## Video de Demonstração
 
 - Video demonstrando as funcionalidades solicitadas na Fase 2: https://youtu.be/t0N95YRmOIw
-- Video demonstrando as funcionalidades solicitadas na Fase 3: https://youtu.be/t0N95YRmOIw
+- Video demonstrando as funcionalidades solicitadas na Fase 3: https://youtu.be/y60eYS9Pr0k
 
 
 ## Contribuidores
